@@ -1,0 +1,35 @@
+html{
+  font-size: 100px;
+}
+::-webkit-scrollbar{
+  display: none;
+  width: 0;
+  height: 0;
+}
+div,p,span, i,b,s,u,input,img,li,ul,ol,textarea,h1,h2,h3,h4,h5{
+  margin: 0;
+  padding:0 ;
+}
+img{
+  vertical-align: middle;
+  border: none;
+}
+input{
+  outline: none;
+}
+li{
+  list-style: none;
+}
+i{
+  font-style: normal;
+}
+
+.clearfix::after{
+  content: '.';
+  visibility: hidden;
+  height: 0;
+  width: 0;
+  display: block;
+  clear: both;
+  zoom: 1;
+}
