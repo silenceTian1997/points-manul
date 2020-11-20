@@ -1,0 +1,38 @@
+
+html{
+  font-size: 100px;
+}
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "PingFang SC","Helvetica Neue",STHeiti,"Microsoft Yahei",Tahoma,Simsun,sans-serif;
+}
+div,span,p,i,s,b,h1,h2,h3,h4,h5,img,input,button,select,a,ul,li,ol{
+  margin: 0;
+  padding: 0;
+}
+li{
+  list-style: none;
+}
+img{
+  vertical-align: middle;
+  border: none;
+}
+input{
+  outline: none;
+}
+a{
+  text-decoration: none;
+  color: #000;
+}
+
+i{
+  font-style: normal;
+}
+.clear-fix::after{
+  content: '.';
+  opacity: 0;
+  visibility: hidden;
+  display: block;
+  width: 0;
+  height: 0;
+  zoom: 1;
+}
