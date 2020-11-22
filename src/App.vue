@@ -1,58 +1,93 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png" />
-  <HelloWorld msg="Welcome to Your Vue.js App" />
-  <van-button type="primary">主要按钮</van-button>
-  <van-card
-    num="2"
-    price="2.00"
-    desc="描述信息"
-    title="商品标题"
-    thumb="https://img.yzcdn.cn/vant/ipad.jpeg"
-  />
+  <div>
+    <router-view></router-view>
+    <pointsTabbar/>
+    {{ num }}
+    <van-button @click="clickAdd">点击加一</van-button>
+  </div>
+
 </template>
 
 <script>
-import HelloWorld from "./components/HelloWorld.vue";
-import { onMounted } from "vue";
+import { onMounted, reactive, toRefs, watch ,watchEffect  } from "vue"
+import { useRoute } from 'vue-router'
+import pointsTabbar from './components/points-tabbar.vue'
 export default {
   name: "App",
   components: {
-    HelloWorld,
+    pointsTabbar
   },
-  setup() {
-    onMounted(() => {
-      (
-        //屏幕适应
-        function (win, doc) {
-          if (!win.addEventListener) return;
-          // eslint-disable-next-line no-unused-vars
-          var htmltext = document.documentElement;
-          function setFont() {
-            var htmltext = document.documentElement;
-            var k = 750;
-            htmltext.style.fontSize = (htmltext.clientWidth / k) * 100 + "px";
-          }
-          setFont();
-          setTimeout(function () {
-            setFont();
-          }, 300);
-          doc.addEventListener("DOMContentLoaded", setFont, false);
-          win.addEventListener("resize", setFont, false);
-          win.addEventListener("load", setFont, false);
-        }
-      )(window, document);
+  setup(props,context) {
+    const state = reactive({
+      num: 0,
+      transitionName: 'slide-left'
     });
+    console.log(context.root)
+    onMounted(() => {
+      // console.log(123)
+      remJS(window, document);
+    });
+    const remJS = function (win, doc) {
+      if (!win.addEventListener) return;
+      function setFont() {
+        var html = document.documentElement;
+        var k = 750;
+        html.style.fontSize = (html.clientWidth / k) * 100 + "px";
+      }
+      setFont();
+      setTimeout(function () {
+        setFont();
+      }, 300);
+      doc.addEventListener("DOMContentLoaded", setFont, false);
+      win.addEventListener("resize", setFont, false);
+      win.addEventListener("load", setFont, false);
+
+      var resizeEvt =
+        "orientationchange" in window ? "orientationchange" : "resize";
+
+      window.addEventListener(resizeEvt, remJS, false);
+      document.addEventListener("DOMContentLoaded", remJS, false);
+      if (
+        typeof WeixinJSBridge == "object" &&
+        typeof WeixinJSBridge.invoke == "function"
+      ) {
+        handleFontSize();
+      } else {
+        document.addEventListener("WeixinJSBridgeReady", handleFontSize, false);
+      }
+      function handleFontSize() {
+        // 设置网页字体为默认大小
+        WeixinJSBridge.invoke("setFontSizeCallback", { fontSize: 0 });
+        // 重写设置网页字体大小的事件
+        WeixinJSBridge.on("menu:setfont", function () {
+          WeixinJSBridge.invoke("setFontSizeCallback", { fontSize: 0 });
+        });
+      }
+    };
+
+    const clickAdd = function () {
+      console.log(1, state.num);
+      state.num = state.num + 1;
+    };
+
+    watchEffect(() => {
+      const number = `my age is ${state.num}`
+      // console.log(number, this.$router)
+    })   
+    
+    const  rouet =  useRoute()  
+    const num =  state.num
+    watch([rouet,num],([rouet,num],[prvpath,prvnum])=>{
+        console.log(prvpath.path,prvnum,'path');
+    })
+    return {
+      ...toRefs(state),
+      clickAdd,
+    };
   },
+
 };
 </script>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
 </style>

@@ -1,11 +1,13 @@
 import { createApp } from 'vue'
-import { Card, Button, Toast } from 'vant'
 import App from './App.vue'
+import { Toast ,Button,Notify} from 'vant';
 import './static/css/base.css'
-import 'vant/lib/index.css'; // 全局引入样式
+import 'vant/lib/index.css';
+import store from './store'
+import router from './router'
 
-const app = createApp(App) // 创建实例
+const Vue = createApp(App)
+Vue.use(Toast).use(Button).use(Notify)
+Vue.use(router).use(store)
 
-app.use(Card).use(Button).use(Toast)
-
-app.mount('#app')
+Vue.mount('#app')

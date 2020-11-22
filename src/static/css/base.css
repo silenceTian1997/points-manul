@@ -1,14 +1,16 @@
+
 html{
   font-size: 100px;
 }
-::-webkit-scrollbar{
-  display: none;
-  width: 0;
-  height: 0;
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "PingFang SC","Helvetica Neue",STHeiti,"Microsoft Yahei",Tahoma,Simsun,sans-serif;
 }
-div,p,span, i,b,s,u,input,img,li,ul,ol,textarea,h1,h2,h3,h4,h5{
+div,span,p,i,s,b,h1,h2,h3,h4,h5,img,input,button,select,a,ul,li,ol{
   margin: 0;
-  padding:0 ;
+  padding: 0;
+}
+li{
+  list-style: none;
 }
 img{
   vertical-align: middle;
@@ -17,19 +19,20 @@ img{
 input{
   outline: none;
 }
-li{
-  list-style: none;
+a{
+  text-decoration: none;
+  color: #000;
 }
+
 i{
   font-style: normal;
 }
-
-.clearfix::after{
+.clear-fix::after{
   content: '.';
+  opacity: 0;
   visibility: hidden;
-  height: 0;
-  width: 0;
   display: block;
-  clear: both;
+  width: 0;
+  height: 0;
   zoom: 1;
 }
