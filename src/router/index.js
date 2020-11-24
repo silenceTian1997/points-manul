@@ -13,8 +13,18 @@ const router = createRouter({
       name:'load',
       meta:{
         index:1,
+        tabbarhidd:true,
       },
       component: () => import('../view/load.vue')
+    },
+    {
+      path: '/login',
+      name:'login',
+      meta:{
+        index:1,
+        tabbarhidd:true,
+      },
+      component: () => import('../view/login.vue')
     },
     {
       path: '/mine',

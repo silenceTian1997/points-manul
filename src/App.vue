@@ -1,32 +1,49 @@
 <template>
-  <div>
+  <div class="container" :class="themeStyle === 'staff'?'staff':'admin'">
+    <pointsTopbar :barTitle="'Hello'" :barPoints="1213"/>
     <router-view></router-view>
-    <pointsTabbar/>
-    {{ num }}
-    <van-button @click="clickAdd">点击加一</van-button>
+    <pointsTabbar v-if="tabbarHidd"/>
+    <!-- {{ num }}
+    <van-button @click="clickAdd" type="info">点击加一</van-button> -->
   </div>
-
+ 
 </template>
 
 <script>
-import { onMounted, reactive, toRefs, watch ,watchEffect  } from "vue"
-import { useRoute } from 'vue-router'
+import { onMounted, reactive, toRefs,  } from "vue"
+// watch ,watchEffect 
+// import { useRoute } from 'vue-router'
+import { setLocal , getLocal , getInstance } from './utils/utils'
 import pointsTabbar from './components/points-tabbar.vue'
+import pointsTopbar from './components/points-topbar.vue'
 export default {
   name: "App",
   components: {
-    pointsTabbar
+    pointsTabbar,
+    pointsTopbar
   },
   setup(props,context) {
+    const instance = getInstance()
+
     const state = reactive({
       num: 0,
-      transitionName: 'slide-left'
+      transitionName: 'slide-left',
+      tabbarHidd:false,
+      themeStyle:'staff'
     });
-    console.log(context.root)
+
     onMounted(() => {
       // console.log(123)
+     let orgtheme =  getLocal('theme') 
+      if(!orgtheme) {
+       setLocal('theme','staff')
+       orgtheme = 'staff'
+      }
+       state.themeStyle = orgtheme
+    
       remJS(window, document);
     });
+
     const remJS = function (win, doc) {
       if (!win.addEventListener) return;
       function setFont() {
@@ -70,24 +87,56 @@ export default {
       state.num = state.num + 1;
     };
 
-    watchEffect(() => {
-      const number = `my age is ${state.num}`
-      // console.log(number, this.$router)
-    })   
+    // watchEffect(() => {
+    //   const number = `my age is ${state.num}`
+    //   // console.log(number, this.$router)
+    // })   
     
-    const  rouet =  useRoute()  
-    const num =  state.num
-    watch([rouet,num],([rouet,num],[prvpath,prvnum])=>{
-        console.log(prvpath.path,prvnum,'path');
-    })
+    // const  rouet =  useRoute()  
+    // const  theme  =  instance.$store.state.themeState
+    // watch([rouet,theme],([curpath,curtheme],[prvpath,pavtheme])=>{
+    //     console.log(curpath.meta, curtheme ,prvpath,pavtheme,'path');
+    //     console.log(theme,'theme')
+    //     // 是否 隐藏tabbar
+    // })
+
     return {
       ...toRefs(state),
       clickAdd,
     };
   },
+   watch: {
+    "$store.state.themeState"(newval, olval) {
+      console.log(newval);
+      this.themeStyle = newval
+
+    },
+    '$route'(newpath,oldpath){
+      console.log(newpath,oldpath)
+       this.tabbarHidd = !newpath.meta.tabbarhidd
+
+    }
+}
 
 };
 </script>
 
 <style>
+.container{
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background-color: #3e2b27;
+  z-index: -1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.staff{
+  background: #3e2b27 ;
+}
+.admin {
+  background: #c2bbab ;
+
+}
 </style>

@@ -8,6 +8,7 @@ body {
 div,span,p,i,s,b,h1,h2,h3,h4,h5,img,input,button,select,a,ul,li,ol{
   margin: 0;
   padding: 0;
+  box-sizing: border-box;
 }
 li{
   list-style: none;

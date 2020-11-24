@@ -1,13 +1,9 @@
 <template>
-<div>
-  {{active}}
-    <ul>
-
-      <router-link tag="li" to="/home">111</router-link>
-      <router-link tag="li" to="/mine">222</router-link>
-      <router-link tag="li" to="/ref">reftest</router-link>
+    <ul class="tabbar">
+      <router-link tag="li" to="/home" class="nav-list-item">Home</router-link>
+      <router-link tag="li" to="/mine" class="nav-list-item">Mine</router-link>
+      <!-- <router-link tag="li" to="/ref">reftest</router-link> -->
     </ul>
-</div>
 </template>
 
 <script>
@@ -16,27 +12,26 @@ export default {
   name:'points-tabbar',
   setup() {
     const state = reactive({
-     active: 0,
-      icon: {
-        active: 'https://img.yzcdn.cn/vant/user-active.png',
-        inactive: 'https://img.yzcdn.cn/vant/user-inactive.png'
-      }
+ 
     })
-    const handleCheckTab = (index) => {
-      console.log(this.active)
-
-      // onChange(index) {
-      Notify({ type: 'primary', message: index });
-    // }
-    }
-    
     return{
       ...toRefs(state),
-      handleCheckTab
     }
   },
 };
 </script>
 
 <style scoped>
+  .tabbar{
+    display: flex;
+  }
+  .nav-list-item{
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .tabbar .router-link-active{
+    color: tomato;
+  }
 </style>

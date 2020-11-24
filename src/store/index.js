@@ -8,7 +8,8 @@ export default createStore({
     isLogin : false,
     //登录返回信息
     loginInfo : {},
-
+    // 主题状态
+    themeState : 'staff'
   },
   mutations: {
     // wsTokenChange(state,str){

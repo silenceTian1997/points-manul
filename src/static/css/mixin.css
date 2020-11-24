@@ -1,0 +1,10 @@
+.dis-flex-cent{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+:root{
+  --color-red:red;
+  --fontsize-12:.24rem;
+  --fontsize-20:.4rem;
+}
