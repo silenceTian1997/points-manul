@@ -1,7 +1,7 @@
 <template>
   <div class="container" :class="themeStyle === 'staff'?'staff':'admin'">
     <pointsTopbar :barTitle="'Hello'" :barPoints="1213"/>
-    <router-view></router-view>
+    <router-view class="content-view"></router-view>
     <pointsTabbar v-if="tabbarHidd"/>
     <!-- {{ num }}
     <van-button @click="clickAdd" type="info">点击加一</van-button> -->
@@ -131,6 +131,11 @@ export default {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+}
+.content-view{
+  width: 100%;
+  /* height: 100%; */
+  flex: 1;
 }
 .staff{
   background: #3e2b27 ;

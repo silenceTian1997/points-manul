@@ -43,6 +43,14 @@ const router = createRouter({
       component: () => import('../view/home.vue')
     },
     {
+      path: '/mine/order',
+      name:'order',
+      meta:{
+        index:1,
+      },
+      component: () => import('../view/order.vue')
+    },
+    {
       path: '/ref',
       name:'ref',
       meta:{

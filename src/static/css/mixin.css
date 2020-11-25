@@ -1,4 +1,4 @@
-.dis-flex-cent{
+.flex-cent{
   display: flex;
   justify-content: center;
   align-items: center;
@@ -7,4 +7,20 @@
   --color-red:red;
   --fontsize-12:.24rem;
   --fontsize-20:.4rem;
+}
+.flex-column{
+  display: flex;
+  flex-direction: column;
+}
+.theme-bg{
+  background-color: #3e2b27;
+}
+.edit{
+  background-color: #d8a647;
+}
+.delete{
+  background-color: #de0000;
+}
+.m-center{
+  margin: 0 auto;
 }
