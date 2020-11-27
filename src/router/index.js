@@ -47,8 +47,27 @@ const router = createRouter({
       name:'order',
       meta:{
         index:1,
+
       },
       component: () => import('../view/order.vue')
+    },
+    {
+      path: '/adminHome',
+      name:'adminHome',
+      meta:{
+        index:1,
+        tabbarhidd:true,
+      },
+      component: () => import('../view/admin-home.vue')
+    },
+    {
+      path: '/adminContacts',
+      name:'adminContacts',
+      meta:{
+        index:1,
+        tabbarhidd:true,
+      },
+      component: () => import('../view/admin-contacts.vue')
     },
     {
       path: '/ref',
