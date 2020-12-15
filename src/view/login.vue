@@ -1,19 +1,24 @@
 <template>
   <div class="login-page">
     <div class="title">
-      {{ login }}
+        <img src="../static/images/login/title.png" alt="">
     </div>
 
     <div class="theme" v-if="themeStyle === 'admin'" :key="new Date()">
-
+      <img src="../static/images/login/theme.png" alt="">
     </div>
-
-
-
 
     <div class="form">
       <van-form @submit="handleLogin" >
-        <div class="form-line">
+               <div class="form-line">
+          <van-field v-model="userId" name="id" label="Id" placeholder="Id" />
+        </div>
+
+        <div class="form-line" >
+          <van-field v-model="userTel" name="tel" label="Tel" placeholder="Tel" />
+        </div>
+        <div v-if="themeStyle === 'staff'" :key="new Date()" >
+         <div class="form-line">
           <van-field
             v-model="userName"
             name="name"
@@ -22,18 +27,10 @@
           />
         </div>
         <div class="form-line">
-          <van-field v-model="userId" name="id" label="Id" placeholder="Id" />
-        </div>
-        <div v-if="themeStyle === 'staff'" :key="new Date()" >
-        <div class="form-line" >
-          <van-field v-model="userTel" name="tel" label="Tel" placeholder="Tel" />
-        </div>
-        <div class="form-line">
           <van-field v-model="userDept" name="dept" label="Dept" placeholder="Dept" />
         </div>
         </div>
           <van-button  class="go" native-type="submit">
-            提交
           </van-button>
       </van-form>
     </div>
@@ -48,10 +45,9 @@
 import { reactive, toRefs , onMounted } from "vue"
 import { getInstance , getLocal ,setLocal } from "../utils/utils"
 export default {
-  setup() {
+  setup(ctx,cont) {
     const instance = getInstance()
     const state = reactive({
-      login: "lo",
       userName: "",
       userId: "",
       userTel:'',
@@ -76,6 +72,7 @@ export default {
     const handleLogin = (values)=>{
       console.log('dd',values)
       //成功 跳转 员工 
+      console.log(ctx,'c',cont)
       instance.$router.push('home')
     }
     onMounted(()=>{
@@ -94,42 +91,71 @@ export default {
 .login-page {
   width: 100%;
   height: 100%;
+  padding-top: 2rem;
+   /* 端屏 .5rem */
 }
 .title {
-  width: 2rem;
-  height: 1rem;
-  margin: 0 auto;
-  background-color: #fff;
+   width: 3.17rem;
+   height: .4rem;
+   margin: 0 auto 1.6rem;
 }
 .theme{
- width: 3rem;
- height: 2rem;
- margin:  0 auto;
- background-color: red;
+  width: 3.82rem;
+  height: 2.02rem;
+  margin:  0 auto .76rem;
 }
 .form {
 }
 .form-line {
-  width: 6.45rem;
+  width:5.6rem;
   margin: 0 auto;
   margin-bottom: 0.2rem;
 }
+
 .form-line .van-cell {
-  background-color: #3c2a26;
+  width: 5.6rem;
+  height: 1rem;
+  border-radius: .2rem;
+  border: 1px solid #6e3b2f;
+  overflow: hidden;
+  background-color: #bdb39d;
   /* opacity: .8; */
 }
+ .form-line /deep/.van-field__label{
+   width: 1rem;
+   line-height: .56rem;
+   margin-left: .2rem;
+   font-size: .32rem;
+   font-weight: 600;
+   color: #382623;
+ }
  .go{
-   width: .5rem;
-   height: .5rem;
-   background-color: pink;
+   display: block;
+   width: 1.1rem;
+   height: 1.1rem;
+   border: none !important;
+   background-color: transparent !important;
    border-radius: 50%;
    overflow: hidden;
+   background-image: url(../static/images/login/go.png);
+   background-size: 100%;
+   background-repeat: no-repeat;
+   margin: 1.2rem auto ;
+   /* trans; */
+   transform: rotate(90deg);
  }
 .check-system{
   width: fit-content;
 }
 /deep/.van-field__control{
-    color: red;
+  font-size: .28rem;
+  font-weight: 600;
+  color: #382623;
+
+}
+img{
+  width: 100%;
+  vertical-align: top;
 }
 
 </style>

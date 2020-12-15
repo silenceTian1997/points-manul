@@ -1,11 +1,18 @@
 <template>
   <div class="load-page">
-    
-    <div class="title"></div>
-    <div class="theme"></div>
-    <div class="theme-logo"></div>
-    <div class="go" @click="handleGologin"></div>
-    <div class="check-system" @click="handleCheckSystem">ififi</div>
+    <div class="title">
+        <img src="../static/images/login/title.png" alt="">
+    </div>
+    <div class="theme">
+      <img src="../static/images/login/theme.png" alt="">
+    </div>
+    <div class="theme-logo">
+      <img src="../static/images/login/logo.png" alt="">
+    </div>
+    <div class="go" @click="handleGologin">
+      <!-- <img src="../static/images/login/go.png" alt=""> -->
+    </div>
+    <div class="check-system" @click="handleCheckSystem">if you are user</div>
   </div>
 </template>
 
@@ -48,33 +55,49 @@ export default {
  .load-page{
    width: 100%;
    height: 100%;
+   padding-top: 2rem;
+   /* 端屏 .5rem */
  }
  .title{
-   width: 2rem;
-   height: 1rem;
-   margin: 0 auto;
-   background-color: #fff;
+   width: 3.17rem;
+   height: .4rem;
+   margin: 0 auto 1.6rem;
+   /* background-color: #fff; */
  }
  .theme{
-  width: 3rem;
-  height: 2rem;
-  margin:  0 auto;
-  background-color: red;
+  width: 3.82rem;
+  height: 2.02rem;
+  margin:  0 auto .76rem;
+  /* background-color: red; */
  }
  .theme-logo{
-   width: 1rem;
-   height: 1rem;
+   width: 2.47rem;
+   height: 2.2rem;
+   margin:  0 auto 1.6rem;
  }
  .go{
-   width: .5rem;
-   height: .5rem;
-   background-color: pink;
+   width: 1.1rem;
+   height: 1.1rem;
    border-radius: 50%;
    overflow: hidden;
+   background-image: url(../static/images/login/go.png);
+   background-size: 100%;
+   background-repeat: no-repeat;
+   margin: 0 auto 1.2rem;
  }
  .check-system{
-   font-size: .2rem;
-   color: orange;
+   width: fit-content;
+   margin: 0 auto;
+   font-size: .26rem;
+   font-weight: 600;
+   color: #3c2a26;
+   text-decoration: #3c2a26;
+   text-decoration-line: underline;
+ }
+ img{
+   width: 100%;
+   vertical-align: top;
+
  }
 
 </style>

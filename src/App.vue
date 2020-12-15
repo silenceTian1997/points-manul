@@ -1,6 +1,6 @@
 <template>
   <div class="container" :class="themeStyle === 'staff'?'staff':'admin'">
-    <pointsTopbar :barTitle="'Hello'" :barPoints="1213"/>
+    <!-- <pointsTopbar :barTitle="'Hello'" :barPoints="1213"/> -->
     <router-view class="content-view"></router-view>
     <pointsTabbar v-if="tabbarHidd"/>
     <!-- {{ num }}
@@ -16,6 +16,7 @@ import { onMounted, reactive, toRefs,  } from "vue"
 import { setLocal , getLocal , getInstance } from './utils/utils'
 import pointsTabbar from './components/points-tabbar.vue'
 import pointsTopbar from './components/points-topbar.vue'
+// import {apiIndex}from './request/api.js'
 export default {
   name: "App",
   components: {
@@ -34,6 +35,7 @@ export default {
 
     onMounted(() => {
       // console.log(123)
+      // apiIndex()
      let orgtheme =  getLocal('theme') 
       if(!orgtheme) {
        setLocal('theme','staff')
@@ -135,13 +137,16 @@ export default {
 .content-view{
   width: 100%;
   /* height: 100%; */
+  overflow-y: scroll;
   flex: 1;
+  padding-bottom: .4rem;
 }
 .staff{
   background: #3e2b27 ;
 }
 .admin {
-  background: #c2bbab ;
-
+  /* background: #c2bbab ; */
+  background-size: cover;
+  background-image: url(./static/images/login/di1.png);
 }
 </style>

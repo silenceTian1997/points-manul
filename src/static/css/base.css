@@ -52,3 +52,6 @@ i{
   width: 0;
   height: 0;
 }
+::after{
+  border: none;
+}

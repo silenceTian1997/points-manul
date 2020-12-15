@@ -70,6 +70,24 @@ const router = createRouter({
       component: () => import('../view/admin-contacts.vue')
     },
     {
+      path: '/adPointsMa',
+      name:'adPointsMa',
+      meta:{
+        index:1,
+        tabbarhidd:true,
+      },
+      component: () => import('../view/admin-points-ma.vue')
+    },
+    {
+      path: '/adProductMa',
+      name:'adProductMa',
+      meta:{
+        index:1,
+        tabbarhidd:true,
+      },
+      component: () => import('../view/admin-product-ma.vue')
+    },
+    {
       path: '/ref',
       name:'ref',
       meta:{

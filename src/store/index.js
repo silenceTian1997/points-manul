@@ -3,7 +3,7 @@ import { createStore } from 'vuex'
 export default createStore({
   state: {
     //服务器地址
-    webPath : 'http://ep.zerom.cn/',
+    webPath : 'http://192.168.1.141:8086',
     //登录状态
     isLogin : false,
     //登录返回信息
