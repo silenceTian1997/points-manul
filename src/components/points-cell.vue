@@ -13,8 +13,8 @@
       </div>
       <div class="shop-operate" @click="handleOpShow">
           <div class="points-item">
-              <div class="point-num">{{shopItem.pointsNum}}</div>
-              <div class="point-text">points</div>
+              <div class="point-num ed-item">{{shopItem.pointsNum}}</div>
+              <div class="point-text ed-item">points</div>
           </div>
           <!-- <div class="points-more">
               <div class="more-item">
@@ -47,10 +47,10 @@ export default {
     shopItem:{
       type:Object,
       default:{
-        pic:'',
+        pic:require('../static/images/login/j1.png'),
         icon:'',
-        descTitle:'',
-        descContent:'',
+        descTitle:'A bunch of flowers',
+        descContent:'Flower express 33 rose bouquel gift box champagne rose birthday gift proposal to girltriend ',
         pointsNum:0,
       }
     },
@@ -62,7 +62,7 @@ export default {
   emits:['handleDelete'],
   setup(props, ctx){
     const state = reactive({
-        opShow:true,
+        opShow:false,
     })
     
     const handleOpShow = ()=>{
@@ -99,31 +99,67 @@ export default {
 @import '../static/css/mixin.css';
   .points-cell{
     display: flex;
-    height: 2rem;
-    background: yellowgreen;
+    height: 2.04rem;
+    /* background: yellowgreen; */
     justify-content: space-between;
     position: relative;
     margin-bottom: .2rem;
-  }
-  .shop-view{
-    width: 2rem;
-    height: 2rem;
-    position: relative;
-    background-color: teal;
-  }
-  .shop-desc{
-    background-color: #0094ff;
-    flex: 1;
-    width: 0;
-  }
-  .shop-operate{
-    width: 1rem;
-    height: 100%;
-    background-color: tomato;
-    margin-left: auto;
+    border-radius: .14rem;
     overflow: hidden;
   }
-
+  img{
+    width: 100%;
+  }
+  .shop-pic{
+    object-fit: cover;
+  }
+  .shop-view{
+    width: 2.6rem;
+    height: 2.04rem;
+    position: relative;
+    border: 1px solid #392724;
+    /* background-color: teal; */
+  }
+  .shop-desc{
+    padding: .2rem;
+    background-color: #3c2a26;
+    flex: 1;
+    width: 0;
+    border: 1px solid #392724;
+  }
+  .desc-title{
+    font-size: .28rem;
+    color: #dc6841;
+    font-weight: bold;
+    margin-bottom: .2rem;
+  }
+  .desc-content{
+    font-size: .2rem;
+    line-height: 1.2;
+    color: #8d8176;
+  }
+  .shop-operate{
+    width: 1.45rem;
+    height: 100%;
+    background-color: #fb882b;
+    margin-left: auto;
+    overflow: hidden;
+    border: 1px solid #392724;
+  }
+  .points-item{
+    height: 100%;
+  }
+  .point-num{
+    font-size: .6rem;
+    font-weight: bold;
+    text-align: center;
+    color: #52352d;
+    line-height: 2.5;
+  }
+  .point-text{
+    text-align: center;
+    font-size: .3rem;
+  }
   .mask-opreate{
     position: absolute;
     width: 100%;
@@ -141,6 +177,14 @@ export default {
     flex: 1;
     height: 0;
     color: #fff;
+    font-size: .36rem;
+    font-weight: bold;
+    width: 100%;
+    text-align: center;
+    line-height: 3;
+  }
+  .ed-item{
+    height: 50%;
   }
 
 </style>

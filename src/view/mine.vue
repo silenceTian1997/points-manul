@@ -17,40 +17,54 @@
 
           <div class="points-line ">
               <div class="points-item">
-                  <div class="points-icon m-center"></div>
-                  <div class="points-text m-center">remaining score</div>
-                  <div class="points-num m-center">123</div>
+                  <div class="points-icon m-center">
+                    <img style="width:.65rem;" src="../static/images/user/jf-icon.png" alt="">
+                  </div>
+                  <div class="points-text m-center">Remaining score</div>
+                  <div class="points-num m-center">520</div>
               </div>
               <div class="gap-line"></div>
               <div class="points-item">
-                 <div class="points-icon m-center"></div>
-                  <div class="points-text m-center">remaining score</div>
-                  <div class="points-num m-center">123</div>
+                 <div class="points-icon m-center">
+                    <img src="../static/images/user/sc-icon.png" alt="">
+                 </div>
+                  <div class="points-text m-center">Your collection</div>
+                  <div class="points-num m-center">34</div>
               </div>
           </div>
 
           <div class="mine-navbar">
-               <van-cell  is-link to="/mine/order" >
+               <van-cell class="navbar" is-link to="/mine/order" >
                   <template #title>
-                    <s>333</s>
+                      <img style="width:.5rem ; margin-right:.4rem" src="../static/images/user/a1.png" alt="">
                     <span class="custom-title">Your order</span>
                   </template>
               </van-cell>
-               <van-cell  is-link to="/mine/exchange" >
+               <van-cell class="navbar" is-link to="/mine/rank" >
                   <template #title>
-                    <s>333</s>
-                    <span class="custom-title">Exchange Code</span>
+                    <img style="width:.5rem ; margin-right:.4rem" src="../static/images/user/a1.png" alt="">
+
+                    <span class="custom-title">Rank</span>
                   </template>
               </van-cell>
-               <van-cell  is-link to="/mine/contacts" >
+               <van-cell class="navbar" is-link to="/mine/shoppingCar" >
                   <template #title>
-                    <s>333</s>
-                    <span class="custom-title">Contacts</span>
+                    <img style="width:.5rem ; margin-right:.4rem" src="../static/images/user/a1.png" alt="">
+
+                    <span class="custom-title">shoppingCar</span>
                   </template>
               </van-cell>
-               <van-cell  is-link to="/mine/more" >
+               <van-cell class="navbar" is-link to="/mine/pointsView" >
                   <template #title>
-                    <s>333</s>
+                    <img style="width:.5rem ; margin-right:.4rem" src="../static/images/user/a1.png" alt="">
+
+                    <span class="custom-title">pointsView</span>
+                  </template>
+              </van-cell>
+               <van-cell  class="navbar" is-link to="/mine/more" >
+                  <template #title>
+                    <img style="width:.5rem ; margin-right:.4rem" src="../static/images/user/a1.png" alt="">
+
                     <span class="custom-title">More</span>
                   </template>
               </van-cell>
@@ -80,76 +94,105 @@ export default {
 .user-line{
   width: 100%;
   height: 2rem;
-  background-color: antiquewhite;
+  /* background-color: antiquewhite; */
   display: flex;
 
 }
+img{
+  width: 100%;
+  vertical-align: top;
+}
 .user-item{
   flex: 1;
+  display: flex;
+  align-items: center;
 }
 .avatar{
-  width: 1.5rem;
-  height: 1.5rem;
-  border-radius: 100%;
+  width: 1.84rem;
+  height: 1.84rem;
+  border-radius: 50%;
   overflow: hidden;
-  background-color: var(--color-red);
+  /* background-color: var(--color-red); */
+  background-image: url(../static/images/user/avar.png);
+  background-size: cover;
 }
 .info-name{
   color: #fff;
-  font-size: var(--fontsize-20);
+  font-size: .46rem;
 }
 .info-phone, .info-id{
   color: #ccc;
-  font-size: var(--fontsize-12);
+  font-size: .28rem;
+  margin: .1rem 0;
 }
 
 .points-line{
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: 100%;
-  height: 2rem;
-  background-color: #fff;
+  width: 7.1rem;
+  margin: 0 auto .5rem;
+  height: 2.1rem;
+  background-color: #3c2a26;
+  border: 2px solid #402b26;
+  border-radius: .2rem;
 }
 .points-item{
   flex: 1;
   height: 100%;
-  background-color: pink;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  /* background-color: pink; */
 }
 .gap-line{
   width: 2px;
-  height: 1rem;
-  background-color: blue;
+  height: .74rem;
+  background-color: #d7762a;
 }
 .points-item:last-child{
   flex: 1;
   height: 100%;
-  background-color: rgb(192, 212, 255);
+  /* background-color: rgb(192, 212, 255); */
 }
 .points-icon{
-  width: 1rem;
-  height: 1rem;
-  background-color: #fff;
+  width: .75rem;
+  height: .65rem;
+  /* background-color: #fff; */
+  text-align: center;
 }
 .points-text{
   width: fit-content;
   height: .3rem;
-  background-color: yellowgreen;
-  font-size: var(--fontsize-12);
+  font-size: .26rem;
+  font-weight: 700;
+  color: #fb882b;
+  margin: .1rem auto;
 }
 .points-num{
   width: fit-content;
-  background-color: teal;
-  font-size: var(--fontsize-20);
+  /* background-color: teal; */
+  color: #f9ca00;
+  font-size: .4rem;
 }
 
 .mine-navbar{
+  width: 7.1rem;
+  margin: 0 auto;
   border-radius: 2px;
-  border: 1px solid #dedede;
+  border: 1px solid #382623;
   overflow: hidden;
+  background-color: #3c2a26;
+}
+.mine-navbar /deep/.van-cell{
+  color: #c2bbab;
+  background-color: #3c2a26;
+}
+.mine-navbar /deep/.van-cell::after{
+  border: none;
 }
 .navbar{
-  border-top: 1px solid #dedede;
+  border-top: 1px solid #382623;
 }
 .navbar:first-child{
   border-top: none;

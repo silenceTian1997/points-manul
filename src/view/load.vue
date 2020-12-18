@@ -1,18 +1,19 @@
 <template>
   <div class="load-page">
     <div class="title">
-        <img src="../static/images/login/title.png" alt="">
+          <img src="../static/images/user/title.png" alt="">
+
     </div>
     <div class="theme">
-      <img src="../static/images/login/theme.png" alt="">
+      <img src="../static/images/user/theme.png" alt="">
     </div>
     <div class="theme-logo">
-      <img src="../static/images/login/logo.png" alt="">
+      <img src="../static/images/user/logo.png" alt="">
     </div>
     <div class="go" @click="handleGologin">
       <!-- <img src="../static/images/login/go.png" alt=""> -->
     </div>
-    <div class="check-system" @click="handleCheckSystem">if you are user</div>
+    <!-- <div class="check-system" @click="handleCheckSystem">if you are user</div> -->
   </div>
 </template>
 
@@ -80,7 +81,7 @@ export default {
    height: 1.1rem;
    border-radius: 50%;
    overflow: hidden;
-   background-image: url(../static/images/login/go.png);
+   background-image: url(../static/images/user/go.png);
    background-size: 100%;
    background-repeat: no-repeat;
    margin: 0 auto 1.2rem;

@@ -1,6 +1,6 @@
 <template>
   <div class="container" :class="themeStyle === 'staff'?'staff':'admin'">
-    <!-- <pointsTopbar :barTitle="'Hello'" :barPoints="1213"/> -->
+    <pointsTopbar :barTitle="'Hello'" :barPoints="1213"/>
     <router-view class="content-view"></router-view>
     <pointsTabbar v-if="tabbarHidd"/>
     <!-- {{ num }}
@@ -16,7 +16,7 @@ import { onMounted, reactive, toRefs,  } from "vue"
 import { setLocal , getLocal , getInstance } from './utils/utils'
 import pointsTabbar from './components/points-tabbar.vue'
 import pointsTopbar from './components/points-topbar.vue'
-// import {apiIndex}from './request/api.js'
+// import { apiIndex }from './request/api.js'
 export default {
   name: "App",
   components: {
@@ -35,7 +35,7 @@ export default {
 
     onMounted(() => {
       // console.log(123)
-      // apiIndex()
+      handleApi()
      let orgtheme =  getLocal('theme') 
       if(!orgtheme) {
        setLocal('theme','staff')
@@ -101,6 +101,10 @@ export default {
     //     console.log(theme,'theme')
     //     // 是否 隐藏tabbar
     // })
+    const  handleApi = async ()=>{
+        // let res = await apiIndex()
+        // console.log(res)
+    }
 
     return {
       ...toRefs(state),
@@ -124,11 +128,12 @@ export default {
 </script>
 
 <style>
+
 .container{
   position: fixed;
   width: 100%;
   height: 100%;
-  background-color: #3e2b27;
+  /* background-color: #3e2b27; */
   z-index: -1;
   display: flex;
   flex-direction: column;
@@ -142,7 +147,9 @@ export default {
   padding-bottom: .4rem;
 }
 .staff{
-  background: #3e2b27 ;
+  /* background: #3e2b27 ; */
+  background-size: cover;
+  background-image: url(./static/images/user/bg.png);
 }
 .admin {
   /* background: #c2bbab ; */

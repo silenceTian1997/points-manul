@@ -1,17 +1,15 @@
 <template>
-  <div class="home-page flex-column">
-    <div class="use-guide">
-        <div class="parline">
-          <span> use guide</span>
-        </div>
-        <div class="guide-content"> Employees can get 1000 points per month as exchange points. If
-  they don't use it, they will be cleared one year later, Please
-  remember to exchange.remember to exchange.
-</div>
+  <div class="points-ma flex-column">
+   <div class="title">
+        <img src="../static/images/login/title.png" alt="">
+    </div>
+    <div class="management-title">
+        <img src="../static/images/login/points-title.png" alt="">
     </div>
     <div class="main flex-column">
     <div class="parline">
-          <span> Product</span>
+          <!-- <span> use guide</span> -->
+          <div class="add-btn"></div>
     </div>
     <div class="home-list theme-bg">
         <van-list
@@ -39,7 +37,7 @@ export default {
     const state = reactive({
       home : 'home hello ',
       list: [{
-      pic:require('../static/images/login/j1.png'),
+        pic:require('../static/images/login/j1.png'),
         icon:'',
         descTitle:'A bunch of flowers',
         descContent:'Flower express 33 rose bouquel gift box champagne rose birthday gift proposal to girltriend ',
@@ -92,6 +90,27 @@ export default {
 
 <style scoped>
 @import '../static/css/mixin.css';
+.points-ma{
+   width: 100%;
+   height: 100%;
+   padding-top: 1.4rem;
+   /* 端屏 .5rem */
+ }
+
+.title{
+   width: 3.17rem;
+   height: .4rem;
+   margin: 0 auto .6rem;
+   /* background-color: #fff; */
+ }
+ img{
+  width: 100%;
+  vertical-align: top;
+}
+ .management-title{
+   width: 3.34rem;
+   margin: 0 auto;
+ }
 
    .test{
     width: 1rem;
@@ -108,32 +127,23 @@ export default {
      width: 7.1rem;
      margin: 0 auto;
      flex: 1;
-    height: 0;
-   }
-   .use-guide{
-     width: 7.1rem;
-     /* height: 2.06rem; */
-     margin: 0 auto;
-     background-color: #3c2a26;
-     border: 1px solid #382623;
+     height: 0;
+     background-color: #382623;
      border-radius: .2rem;
+   }
+   .add-btn{
+     width: 6.72rem;
+     height: 1rem;
+     margin: .2rem auto;
+     border-radius: .2rem;
+     overflow: hidden;
+     background-size: cover;
+     background-image: url(../static/images/login/add-text-btn.png);
    }
    .home-list{
      flex: 1;
      height: 0;
      overflow-x:hidden ;
      overflow-y: scroll;
-   }
-   .parline{
-     font-size: .3rem;
-     color: #fb882b;
-     font-weight: bold;
-     padding: .2rem .3rem;
-     border-bottom: 1px solid #462f29;
-   }
-   .guide-content{
-     padding: .3rem;
-     font-size: .2rem;
-     color: #c2bbab;
    }
 </style>

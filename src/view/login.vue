@@ -1,11 +1,11 @@
 <template>
   <div class="login-page">
     <div class="title">
-        <img src="../static/images/login/title.png" alt="">
+        <img src="../static/images/user/title.png" alt="">
     </div>
 
     <div class="theme" v-if="themeStyle === 'admin'" :key="new Date()">
-      <img src="../static/images/login/theme.png" alt="">
+      <img src="../static/images/user/theme.png" alt="">
     </div>
 
     <div class="form">
@@ -37,7 +37,7 @@
 
 
 
-    <div class="check-system" @click="handleCheckSystem">ififi</div>
+    <!-- <div class="check-system" @click="handleCheckSystem">ififi</div> -->
   </div>
 </template>
 
@@ -116,9 +116,9 @@ export default {
   width: 5.6rem;
   height: 1rem;
   border-radius: .2rem;
-  border: 1px solid #6e3b2f;
+  border: 1px solid#623024;
   overflow: hidden;
-  background-color: #bdb39d;
+  background-color: #3c2a26;
   /* opacity: .8; */
 }
  .form-line /deep/.van-field__label{
@@ -127,7 +127,7 @@ export default {
    margin-left: .2rem;
    font-size: .32rem;
    font-weight: 600;
-   color: #382623;
+   color: #fb882b;
  }
  .go{
    display: block;
@@ -137,7 +137,7 @@ export default {
    background-color: transparent !important;
    border-radius: 50%;
    overflow: hidden;
-   background-image: url(../static/images/login/go.png);
+   background-image: url(../static/images/user/go.png);
    background-size: 100%;
    background-repeat: no-repeat;
    margin: 1.2rem auto ;

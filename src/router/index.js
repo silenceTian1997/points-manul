@@ -52,6 +52,34 @@ const router = createRouter({
       component: () => import('../view/order.vue')
     },
     {
+      path: '/mine/rank',
+      name:'rank',
+      meta:{
+        index:1,
+
+      },
+      component: () => import('../view/rank.vue')
+    },
+    {
+      path: '/mine/shoppingCar',
+      name:'shoppingCar',
+      meta:{
+        index:1,
+
+      },
+      component: () => import('../view/shopping-car.vue')
+    },
+    {
+      path: '/mine/pointsView',
+      name:'pointsView',
+      meta:{
+        index:1,
+
+      },
+      component: () => import('../view/points-view.vue')
+    },
+
+    {
       path: '/adminHome',
       name:'adminHome',
       meta:{
@@ -86,6 +114,15 @@ const router = createRouter({
         tabbarhidd:true,
       },
       component: () => import('../view/admin-product-ma.vue')
+    },
+    {
+      path: '/adProductMaPage',
+      name:'adProductMaPage',
+      meta:{
+        index:1,
+        tabbarhidd:true,
+      },
+      component: () => import('../view/admin-product-ma-page.vue')
     },
     {
       path: '/ref',
