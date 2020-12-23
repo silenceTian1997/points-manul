@@ -1,9 +1,13 @@
 <template>
-     <div class="parline">
-          <!-- <span> Product </span> -->
+     <!-- <div class="parline">
           Product
+    </div> -->
+    <pointsList style="padding-bottom:14%" :list="list" :loading='loading' :finished='finished' @ajaxLoad='ajaxLoad' @handleCellItem='handleCellItem' :cellType="'shopCar'"/>
+    <div class="cartotal">
+        <div class="select">settlement</div>
+        <div class="num-bar"> <span class="num">{{ totalPoints }}</span> Points</div>
+        <div class="gou"></div>
     </div>
-    <pointsList :list="list" :loading='loading' :finished='finished' @ajaxLoad='ajaxLoad' @handleDeleteItem='handleDeleteItem'/>
 </template>
 
 <script>
@@ -17,12 +21,14 @@ export default {
       const state = reactive({
       loading: false,
       finished: false,
+      totalPoints:0,
       list:[{
         pic:'',
         icon:'',
         descTitle:'',
         descContent:'',
         pointsNum:0,
+        gouNum:0
       }]
     })
     const ajaxLoad = ()=>{
@@ -35,7 +41,9 @@ export default {
             icon:'',
             descTitle:'',
             descContent:'',
-            pointsNum:0,
+            pointsNum:10,
+            gouNum:0
+
           })
         }
 
@@ -48,14 +56,45 @@ export default {
         }
       }, 1000)
     }
-    const handleDeleteItem =(index)=>{
-      // console.log(ind,'22')
-      state.list.splice(index,1)
+    
+    const countTotalPoints = () =>{
+      
+      
+     state.totalPoints = state.list.reduce(function(prev, cur, index, arr) {
+          console.log(prev, cur.gouNum, index);
+          return prev + (cur.gouNum * cur.pointsNum);
+      },0)
+    }
+
+
+    const handleCellItem =(opt)=>{
+      console.log(opt,'22')
+      let {options:countType , isIndex} = opt
+      switch (countType) {
+        case 'add':
+            console.log("+")
+            state.list[isIndex].gouNum  = state.list[isIndex].gouNum + 1
+            countTotalPoints()
+          break;
+        case 'minus':
+            console.log("-")
+            if (state.list[isIndex].gouNum === 0) {
+              return
+            }
+            state.list[isIndex].gouNum  = state.list[isIndex].gouNum - 1
+            countTotalPoints()
+
+          break;
+        default:
+          break;
+      }
+      // state.list.splice(index,1)
+
     }
     return{
       ...toRefs(state),
       ajaxLoad,
-      handleDeleteItem
+      handleCellItem
     }
   }
 }
@@ -68,5 +107,42 @@ export default {
      font-weight: bold;
      padding: .2rem .3rem;
      border-bottom: 1px solid #462f29;
+   }
+   .cartotal{
+     width: 7.1rem;
+     height: 1.1rem;
+     background-color: #3c2a26;
+     position: fixed;
+     bottom: 14%;
+     left: 50%;
+     margin-left:-3.55rem ;
+     display: flex;
+     align-items: center;
+     justify-content: space-between;
+     padding: 0 .3rem;
+   }
+   .select{
+     font-size: .28rem;
+     color: #dc6841;
+   }
+   .num-bar{
+     display: flex;
+     justify-content: center;
+     align-items: center;
+     color: #fff;
+     font-size: .16rem;
+   }
+   .num{
+     font-size: .44rem;
+     color: #dc6841;
+   }
+   
+   .gou{
+     width: .81rem;
+     height: .81rem;
+     border-radius: 50%;
+     overflow: hidden;
+     background-size: cover;
+     background-image: url(../static/images/user/gou.png);
    }
 </style>

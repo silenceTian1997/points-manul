@@ -20,22 +20,30 @@
         finished-text="没有更多了"
         @load="onLoad"
       >
-        <pointsCell v-for="(item,index) in list" :key="index" :shopItem="item" :shopIndex="index" @handleDelete='handleDelete'/>
+        <pointsCell v-for="(item,index) in list" :key="index" :shopItem="item" :shopIndex="index" @handleCell='handleCell'/>
       </van-list> 
     </div>
     </div>
-
+  <div class="car" @click="toCar">
+      <div class="dot-tip">
+        <span v-if="carNum > 10">10+</span>
+        <span v-else>{{carNum}}</span>
+      </div>
+  </div>
 </div>
+
 </template>
 
 <script>
 import { onMounted , reactive , toRefs } from 'vue'
+import { useRouter  } from 'vue-router'
 import pointsCell from '../components/points-cell'
 export default {
   components:{
     pointsCell
   },
   setup(){
+     const router = useRouter();
     const state = reactive({
       home : 'home hello ',
       list: [{
@@ -44,7 +52,9 @@ export default {
         descTitle:'A bunch of flowers',
         descContent:'Flower express 33 rose bouquel gift box champagne rose birthday gift proposal to girltriend ',
         pointsNum:85,
+        car:true
       }],
+      carNum:0,
       loading: false,
       finished: false,
     })
@@ -59,6 +69,7 @@ export default {
             descTitle:'A bunch of flowers',
             descContent:'Flower express 33 rose bouquel gift box champagne rose birthday gift proposal to girltriend ',
             pointsNum:85,
+            car:true
           })
         }
 
@@ -72,9 +83,23 @@ export default {
       }, 1000)
     }
 
-    const handleDelete = (ind)=>{
+    const handleCell = (ind)=>{
       console.log(ind,'22')
-      state.list.splice(ind,1)
+      // state.list.splice(ind,1)
+      state.list[ind].car = !state.list[ind].car
+      console.log( state.list[ind].car)
+      // 记录所有添加的个数
+      let num = 0
+      state.list.map((item,index)=>{
+        if(item.car == true) {
+          num = num + 1
+        }
+      })
+      state.carNum = num 
+    }
+    const toCar = ()=>{
+      // Router
+      router.push('/mine/shoppingCar')
     }
 
     onMounted(async ()=>{
@@ -83,7 +108,8 @@ export default {
     })
     return {
       ...toRefs(state),
-      handleDelete,
+      handleCell,
+      toCar,
       onLoad
     }
   }
@@ -135,5 +161,29 @@ export default {
      padding: .3rem;
      font-size: .2rem;
      color: #c2bbab;
+   }
+   .car{
+     width: 1.04rem;
+     height: 1.04rem;
+     position: fixed;
+     bottom: 14%;
+     left: .2rem;
+     border-radius: 50%;
+     background-size: cover;
+     background-position: center;
+     background-image: url(../static/images/user/car.png);
+   }
+   .dot-tip{
+     width: .36rem;
+     height: .36rem;
+     border-radius: 50%;
+     background-color: #ff0000;
+     color: #fff;
+     position: absolute;
+     right: 0;
+     font-size: .26rem;
+     display: flex;
+     justify-content: center;
+     align-items: center;
    }
 </style>

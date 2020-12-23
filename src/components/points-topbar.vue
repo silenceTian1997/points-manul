@@ -1,8 +1,13 @@
 <template>
   <div class="topbar">
-    <div class="icon"></div>
+    <div class="icon">
+      <img :src="icon" alt="">
+    </div>
     <div class="bar-title"> {{ barTitle }}</div>
-    <div class="bar-points"> {{ barPoints }}Points</div>
+    <div class="bar-points">
+      <div class="points-num">{{ barPoints }}</div> 
+      <div class="points-text">Points</div>
+      </div>
   </div>
 </template>
 
@@ -16,7 +21,7 @@ export default {
     },
     barTitle:{
       type:String,
-      default:'Produce Page'
+      default:'Points '
     },
     barPoints:{
       type:Number || String,
@@ -27,24 +32,41 @@ export default {
 </script>
 
 <style scoped>
+  img{
+    width: 100%;
+    vertical-align: top;
+    
+  }
     .topbar{
       display: flex;
-      height: 1rem;
+      height: 1.2rem;
       /* background-color: #fff; */
       align-items: center;
+      padding: 0 .2rem;
     }
     .icon{
-      width: .4rem;
-      height: .4rem;
-      background-color: pink;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: .8rem;
+      height: .8rem;
+      margin-left: .2rem;
     }
     .bar-title{
-      color: orange;
-      font-size: .48rem;
+      color: #dc6841;
+      font-size: .34rem;
+      margin-left: .2rem;
     }
     .bar-points{
-      color: yellow;
-      font-size: .48rem;
+      color: #f9ca00;
+      font-size: .24rem;
       margin-left: auto;
+      display: flex;
+      align-items: center;
+      font-weight: bold;
+    }
+    .points-num{
+      font-size: .38rem;
+      margin-right: .2rem;
     }
 </style>

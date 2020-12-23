@@ -56,25 +56,25 @@ export default {
  .load-page{
    width: 100%;
    height: 100%;
-   padding-top: 2rem;
+   padding-top: 14vh;
    /* 端屏 .5rem */
  }
  .title{
    width: 3.17rem;
    height: .4rem;
-   margin: 0 auto 1.6rem;
+   margin: 0 auto 11vh;
    /* background-color: #fff; */
  }
  .theme{
   width: 3.82rem;
   height: 2.02rem;
-  margin:  0 auto .76rem;
+  margin:  0 auto 5vh;
   /* background-color: red; */
  }
  .theme-logo{
    width: 2.47rem;
    height: 2.2rem;
-   margin:  0 auto 1.6rem;
+   margin:  0 auto 11vh;
  }
  .go{
    width: 1.1rem;
@@ -84,7 +84,7 @@ export default {
    background-image: url(../static/images/user/go.png);
    background-size: 100%;
    background-repeat: no-repeat;
-   margin: 0 auto 1.2rem;
+   margin: 0 auto ;
  }
  .check-system{
    width: fit-content;

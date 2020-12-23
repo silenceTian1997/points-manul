@@ -18,7 +18,7 @@
         finished-text="没有更多了"
         @load="onLoad"
       >
-        <pointsCell v-for="(item,index) in list" :key="index" :shopItem="item" :shopIndex="index" @handleDelete='handleDelete'/>
+        <pointsCell v-for="(item,index) in list" :key="index" :shopItem="item" :shopIndex="index" @handleCell='handleCell'/>
       </van-list> 
     </div>
     </div>
@@ -70,7 +70,7 @@ export default {
       }, 1000)
     }
 
-    const handleDelete = (ind)=>{
+    const handleCell = (ind)=>{
       console.log(ind,'22')
       state.list.splice(ind,1)
     }
@@ -81,7 +81,7 @@ export default {
     })
     return {
       ...toRefs(state),
-      handleDelete,
+      handleCell,
       onLoad
     }
   }

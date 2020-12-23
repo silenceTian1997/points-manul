@@ -1,10 +1,9 @@
 <template>
   <div class="container" :class="themeStyle === 'staff'?'staff':'admin'">
-    <pointsTopbar :barTitle="'Hello'" :barPoints="1213"/>
+    <pointsTopbar :barTitle="topTitle" :barPoints="1213" :icon="icon" v-if="topTitle" />
     <router-view class="content-view"></router-view>
     <pointsTabbar v-if="tabbarHidd"/>
-    <!-- {{ num }}
-    <van-button @click="clickAdd" type="info">点击加一</van-button> -->
+ 
   </div>
  
 </template>
@@ -26,10 +25,14 @@ export default {
   setup(props,context) {
     const instance = getInstance()
 
+
+
     const state = reactive({
       num: 0,
       transitionName: 'slide-left',
       tabbarHidd:false,
+      topTitle:'points',
+      icon :'',
       themeStyle:'staff'
     });
 
@@ -41,6 +44,9 @@ export default {
        setLocal('theme','staff')
        orgtheme = 'staff'
       }
+
+
+
        state.themeStyle = orgtheme
     
       remJS(window, document);
@@ -113,14 +119,24 @@ export default {
   },
    watch: {
     "$store.state.themeState"(newval, olval) {
-      console.log(newval);
+      console.log(newval,'route');
       this.themeStyle = newval
-
     },
     '$route'(newpath,oldpath){
       console.log(newpath,oldpath)
-       this.tabbarHidd = !newpath.meta.tabbarhidd
+            const topIconObj = {
+      'Personal center':require('./static/images/user/gr.png'),
+      'Product Page':require('./static/images/user/jf.png'),
+      'Your Order':require('./static/images/user/dd.png'),
+      'Ranking':require('./static/images/user/pm.png'),
+      'Shopping Cart':require('./static/images/user/gw.png'),
+      'Points view':require('./static/images/user/ck.png'),
+    }
 
+       this.tabbarHidd = !newpath.meta.tabbarhidd
+       this.topTitle = newpath.meta.barTitle
+       this.icon = topIconObj[this.topTitle]
+       console.log(this.icon)
     }
 }
 

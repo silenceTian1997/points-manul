@@ -1,6 +1,6 @@
 const Timestamp = new Date().getTime();
 module.exports = {
-    publicPath: './',
+    publicPath: '/shop/index',
     outputDir: 'dist',
     lintOnSave: true,
     runtimeCompiler: true,
@@ -21,7 +21,7 @@ module.exports = {
             errors: false
 
         },
-        host: '192.168.43.152',
+        host: '192.168.1.141',
         // name:'localhost',
         port:8086,
         // open: true,

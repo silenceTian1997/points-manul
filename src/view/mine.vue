@@ -16,7 +16,7 @@
           </div>
 
           <div class="points-line ">
-              <div class="points-item">
+              <div class="points-item" @click="handleToPath('view')">
                   <div class="points-icon m-center">
                     <img style="width:.65rem;" src="../static/images/user/jf-icon.png" alt="">
                   </div>
@@ -24,11 +24,11 @@
                   <div class="points-num m-center">520</div>
               </div>
               <div class="gap-line"></div>
-              <div class="points-item">
+              <div class="points-item" @click="handleToPath('rank')">
                  <div class="points-icon m-center">
-                    <img src="../static/images/user/sc-icon.png" alt="">
+                    <img src="../static/images/user/rk-icon.png" alt="">
                  </div>
-                  <div class="points-text m-center">Your collection</div>
+                  <div class="points-text m-center">Ranking</div>
                   <div class="points-num m-center">34</div>
               </div>
           </div>
@@ -40,13 +40,13 @@
                     <span class="custom-title">Your order</span>
                   </template>
               </van-cell>
-               <van-cell class="navbar" is-link to="/mine/rank" >
+               <!-- <van-cell class="navbar" is-link to="/mine/rank" >
                   <template #title>
                     <img style="width:.5rem ; margin-right:.4rem" src="../static/images/user/a1.png" alt="">
 
                     <span class="custom-title">Rank</span>
                   </template>
-              </van-cell>
+              </van-cell> -->
                <van-cell class="navbar" is-link to="/mine/shoppingCar" >
                   <template #title>
                     <img style="width:.5rem ; margin-right:.4rem" src="../static/images/user/a1.png" alt="">
@@ -54,13 +54,13 @@
                     <span class="custom-title">shoppingCar</span>
                   </template>
               </van-cell>
-               <van-cell class="navbar" is-link to="/mine/pointsView" >
+               <!-- <van-cell class="navbar" is-link to="/mine/pointsView" >
                   <template #title>
                     <img style="width:.5rem ; margin-right:.4rem" src="../static/images/user/a1.png" alt="">
 
                     <span class="custom-title">pointsView</span>
                   </template>
-              </van-cell>
+              </van-cell> -->
                <van-cell  class="navbar" is-link to="/mine/more" >
                   <template #title>
                     <img style="width:.5rem ; margin-right:.4rem" src="../static/images/user/a1.png" alt="">
@@ -75,14 +75,30 @@
 <script>
 
 import { onMounted, reactive , toRefs } from 'vue'
+import  { useRouter } from  'vue-router'
 export default {
   
   setup(){
+    const  Router = useRouter()
     const state = reactive({
       mine:'mine页面'
-    })  
+    }) 
+    const handleToPath = (type)=>{
+      switch (type) {
+        case 'view':
+          Router.push('/mine/pointsView')
+          break;
+        case 'rank':
+          Router.push('/mine/rank')
+          break;
+      
+        default:
+          break;
+      }
+    }
     return {
-      ...toRefs(state)
+      ...toRefs(state),
+      handleToPath
     }
   }
   

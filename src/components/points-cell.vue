@@ -11,8 +11,8 @@
       </div>
       <div class="desc-content">{{ shopItem.descContent }}</div>
     </div>
-    <template v-if="operate == 'show'">
-      <div class="shop-operate" @click="handleOpShow">
+    <template v-if="type == 'show'">
+      <div class="shop-operate " :class="shopItem.car?'yecar':'nocar'" @click="handleOpShow">
         <div class="points-item">
           <div class="point-num ed-item">{{ shopItem.pointsNum }}</div>
           <div class="point-text ed-item">points</div>
@@ -28,7 +28,7 @@
     </template>
 
     <!-- 购物车 -->
-    <template v-if="operate == 'shopCar'">
+    <template v-if="type == 'shopCar'">
       <div class="shop-operate shopcar-operate">
         <div class="shop-item">
           <div class="point-num ed-item">{{ shopItem.pointsNum }}</div>
@@ -36,28 +36,29 @@
         </div>
         <div class="count-bar">
           <div class="sub">
-            <van-icon class="count-i" name="minus" />
+            <van-icon class="count-i" name="minus" @click="handleOpShow('minus')" />
           </div>
-          <div class="num">1</div>
-          <div class="add"><van-icon class="count-i" name="plus" /></div>
+          <div class="num">{{shopItem.gouNum}}</div>
+          <div class="add" @click="handleOpShow('add')"><van-icon class="count-i" name="plus" /></div>
         </div>
       </div>
     </template>
     <!-- 订单 -->
-    <template v-if="operate == 'order'">
-      <div class="shop-operate shopcar-operate">
+    <template v-if="type == 'order'">
+      <div class="shop-operate shopcar-operate" :class="!shopItem.exchange?'':'exchanged'">
         <div class="shop-item">
           <div class="point-num ed-item">{{ shopItem.pointsNum }}</div>
           <div class="point-text ed-item">points</div>
         </div>
         <div class="order-status">
             <!--  -->
-            <div class="no">
+            <div class="no" v-if="!shopItem.exchange" :key="new Date()">
               <img src="../static/images/user/no.png" alt="">
             </div>
-            <!-- <div class="yes">
-               <img src="../static/images/user/yes.png" alt="">
-            </div> -->
+            <div class="yes" v-else :key="new Date()">
+              <!-- <img src="../static/images/user/yes.png" alt=""> -->
+              <van-icon name="success" />
+            </div>
         </div>
       </div>
     </template>
@@ -91,25 +92,40 @@ export default {
         descContent:
           "Flower express 33 rose bouquel gift box champagne rose birthday gift proposal to girltriend ",
         pointsNum: 0,
+        car:false,
+        gouNum:0
       },
     },
-    operate: {
+    type: {
       type: String,
-      default: "order",
+      default: "show",
     },
     shopIndex: {
       type: Number,
       default: 0,
     },
   },
-  emits: ["handleDelete"],
+  emits: ["handleCell"],
   setup(props, ctx) {
     const state = reactive({
       opShow: false,
     });
+    const isCar = Object.assign({},props.shopItem)
+    const isIndex = props.shopIndex
 
-    const handleOpShow = () => {
-      state.opShow = true;
+    const handleOpShow = (options) => {
+      // state.opShow = true;
+      // isCar = !isCar
+      if(props.type === 'shopCar'){
+        console.log(options)
+        ctx.emit("handleCell", {
+          isIndex,
+          options
+        });
+      }else{
+
+        ctx.emit("handleCell", isIndex);
+      }
     };
 
     const handleEditOrDelete = (type) => {
@@ -122,7 +138,7 @@ export default {
         case "edite":
           break;
         case "delete":
-          ctx.emit("handleDelete", props.shopIndex);
+          ctx.emit("handleCell", props.shopIndex);
           break;
         default:
           break;
@@ -199,6 +215,12 @@ img {
 .shopcar-operate .ed-item {
   color: #fff;
 }
+.shopcar-operate.exchanged{
+  background-color: #fb882b !important;
+}
+.shopcar-operate.exchanged .shop-item{
+  margin-bottom: .1rem;
+}
 .no{
   width: .69rem;
   height: .13rem;
@@ -206,6 +228,9 @@ img {
 .yes{
   width: .67rem;
   height: .48rem;
+  font-size: .6rem;
+  text-align: center;
+  color: #fff;
 }
 .points-item {
   height: 100%;
@@ -275,5 +300,8 @@ img {
 }
 .ed-item {
   height: 50%;
+}
+.yecar{
+  background-color: #c2bbab;
 }
 </style>

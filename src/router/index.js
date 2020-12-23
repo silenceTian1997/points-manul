@@ -1,12 +1,12 @@
-import { createRouter, createWebHistory } from 'vue-router'
+import { createRouter, createWebHashHistory } from 'vue-router'
 
 const router = createRouter({
-  history: createWebHistory(), // hash模式：createWebHashHistory，history模式：createWebHistory
+  history: createWebHashHistory('/shop/index/index.html'), // hash模式：createWebHashHistory，history模式：createWebHistory
   routes: [
+    
     {
       path: '/',
-      redirect:'/load',
-   
+      redirect:'load'
     },
     {
       path: '/load',
@@ -31,6 +31,7 @@ const router = createRouter({
       name:'mine',
       meta:{
         index:1,
+        barTitle:'Personal center'
       },
       component: () => import('../view/mine.vue')
     },
@@ -39,6 +40,7 @@ const router = createRouter({
       name:'home',
       meta:{
         index:1,
+        barTitle:'Product Page'
       },
       component: () => import('../view/home.vue')
     },
@@ -47,7 +49,7 @@ const router = createRouter({
       name:'order',
       meta:{
         index:1,
-
+        barTitle:'Your Order'
       },
       component: () => import('../view/order.vue')
     },
@@ -56,7 +58,7 @@ const router = createRouter({
       name:'rank',
       meta:{
         index:1,
-
+        barTitle:'Ranking'
       },
       component: () => import('../view/rank.vue')
     },
@@ -65,7 +67,7 @@ const router = createRouter({
       name:'shoppingCar',
       meta:{
         index:1,
-
+        barTitle:'Shopping Cart'
       },
       component: () => import('../view/shopping-car.vue')
     },
@@ -74,7 +76,7 @@ const router = createRouter({
       name:'pointsView',
       meta:{
         index:1,
-
+        barTitle:'Points view'
       },
       component: () => import('../view/points-view.vue')
     },

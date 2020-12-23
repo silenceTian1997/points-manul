@@ -1,24 +1,29 @@
 <template>
   <div class="login-page">
     <div class="title">
-        <img src="../static/images/user/title.png" alt="">
+      <img src="../static/images/user/title.png" alt="" />
     </div>
 
     <div class="theme" v-if="themeStyle === 'admin'" :key="new Date()">
-      <img src="../static/images/user/theme.png" alt="">
+      <img src="../static/images/user/theme.png" alt="" />
     </div>
 
     <div class="form">
-      <van-form @submit="handleLogin" >
-               <div class="form-line">
+      <van-form @submit="handleLogin">
+        <div class="form-line">
           <van-field v-model="userId" name="id" label="Id" placeholder="Id" />
         </div>
 
-        <div class="form-line" >
-          <van-field v-model="userTel" name="tel" label="Tel" placeholder="Tel" />
+        <div class="form-line">
+          <van-field
+            v-model="userTel"
+            name="tel"
+            label="Tel"
+            placeholder="Tel"
+          />
         </div>
-        <div v-if="themeStyle === 'staff'" :key="new Date()" >
-         <div class="form-line">
+        <!-- <div v-if="themeStyle === 'staff'" :key="new Date()" > -->
+        <div class="form-line">
           <van-field
             v-model="userName"
             name="name"
@@ -27,64 +32,90 @@
           />
         </div>
         <div class="form-line">
-          <van-field v-model="userDept" name="dept" label="Dept" placeholder="Dept" />
+          <div class="xiala"></div>
+
+          <van-field
+            readonly
+            clickable
+            label="Dept"
+            name="dept"
+            v-model="userDept"
+            placeholder="Dept"
+            @click="showPicker = true"
+          />
+          <div class="mask" v-if="showPicker" @click=" showPicker = false">
+            <div class="popup">
+              <van-picker
+                :columns="columns"
+                @cancel="showPicker = false"
+                @confirm="onConfirm"
+              />
+            </div>
+          </div>
         </div>
-        </div>
-          <van-button  class="go" native-type="submit">
-          </van-button>
+        <!-- </div> -->
+        <van-button class="go" native-type="submit"> </van-button>
       </van-form>
     </div>
-
-
 
     <!-- <div class="check-system" @click="handleCheckSystem">ififi</div> -->
   </div>
 </template>
 
 <script>
-import { reactive, toRefs , onMounted } from "vue"
-import { getInstance , getLocal ,setLocal } from "../utils/utils"
+import { reactive, toRefs, onMounted, ref } from "vue";
+import { getInstance, getLocal, setLocal } from "../utils/utils";
 export default {
-  setup(ctx,cont) {
-    const instance = getInstance()
+  setup(ctx, cont) {
+    const instance = getInstance();
     const state = reactive({
       userName: "",
       userId: "",
-      userTel:'',
-      userDept:'',
-      themeStyle:'staff'
-    })
+      userTel: "",
+      userDept: "",
+      themeStyle: "staff",
+      value: "",
+      showPicker: false,
+      columns: ["杭州", "宁波", "温州", "绍兴", "湖州", "嘉兴", "金华", "衢州"],
+    });
     const handleCheckSystem = () => {
-      let prvTheme = getLocal("theme")
-      let theme = prvTheme === "admin" ? "staff" : "admin"
+      let prvTheme = getLocal("theme");
+      let theme = prvTheme === "admin" ? "staff" : "admin";
       // 配合vuex
-      instance.$store.state.themeState = theme
-      state.themeStyle = theme
-      setLocal("theme", theme)
+      instance.$store.state.themeState = theme;
+      state.themeStyle = theme;
+      setLocal("theme", theme);
       // 重置表单
       // console.log(state,'.van-field__control')
       for (const key in state) {
-        if (key.includes('user')) {
-          state[key] = ''
+        if (key.includes("user")) {
+          state[key] = "";
         }
       }
-    }
-    const handleLogin = (values)=>{
-      console.log('dd',values)
-      //成功 跳转 员工 
-      console.log(ctx,'c',cont)
-      instance.$router.push('home')
-    }
-    onMounted(()=>{
-      state.themeStyle = getLocal("theme")
-    })
+    };
+    const onConfirm = (value) => {
+      console.log(value);
+      state.userDept = value;
+      console.log(state.userDept);
+      state.showPicker = false;
+    };
+    const handleLogin = (values) => {
+      console.log("dd", values);
+      //成功 跳转 员工
+      console.log(ctx, "c", cont);
+      instance.$router.push("home");
+    };
+    onMounted(() => {
+      state.themeStyle = getLocal("theme");
+    });
     return {
       ...toRefs(state),
       handleCheckSystem,
-      handleLogin
-    }
+      handleLogin,
+      onConfirm,
+    };
   },
-}
+};
 </script>
 
 <style  scoped>
@@ -92,70 +123,99 @@ export default {
   width: 100%;
   height: 100%;
   padding-top: 2rem;
-   /* 端屏 .5rem */
+  /* 端屏 .5rem */
 }
 .title {
-   width: 3.17rem;
-   height: .4rem;
-   margin: 0 auto 1.6rem;
+  width: 3.17rem;
+  height: 0.4rem;
+  margin: 0 auto 1.6rem;
 }
-.theme{
+.theme {
   width: 3.82rem;
   height: 2.02rem;
-  margin:  0 auto .76rem;
+  margin: 0 auto 0.76rem;
 }
-.form {
+.mask {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  z-index: 9;
+}
+.popup {
+  position: fixed;
+  z-index: 9;
+  width: 100%;
+  height: 30%;
+  bottom: 0;
+  left: 0;
+  padding: 0.4rem;
+  border-top-left-radius: 0.4rem;
+  border-top-right-radius: 0.4rem;
+  overflow: hidden;
+  background-color: #fff;
 }
 .form-line {
-  width:5.6rem;
+  width: 5.6rem;
   margin: 0 auto;
   margin-bottom: 0.2rem;
+  position: relative;
+}
+.xiala {
+  position: absolute;
+  right: 6%;
+  top: 40%;
+  width: 0.17rem;
+  height: 0.09rem;
+  z-index: 9;
+  background-size: 100%;
+  background-image: url(../static/images/user/xiala.png);
 }
 
 .form-line .van-cell {
   width: 5.6rem;
   height: 1rem;
-  border-radius: .2rem;
+  border-radius: 0.2rem;
   border: 1px solid#623024;
   overflow: hidden;
   background-color: #3c2a26;
   /* opacity: .8; */
 }
- .form-line /deep/.van-field__label{
-   width: 1rem;
-   line-height: .56rem;
-   margin-left: .2rem;
-   font-size: .32rem;
-   font-weight: 600;
-   color: #fb882b;
- }
- .go{
-   display: block;
-   width: 1.1rem;
-   height: 1.1rem;
-   border: none !important;
-   background-color: transparent !important;
-   border-radius: 50%;
-   overflow: hidden;
-   background-image: url(../static/images/user/go.png);
-   background-size: 100%;
-   background-repeat: no-repeat;
-   margin: 1.2rem auto ;
-   /* trans; */
-   transform: rotate(90deg);
- }
-.check-system{
+.form-line /deep/.van-field__label {
+  width: 1rem;
+  line-height: 0.56rem;
+  margin-left: 0.2rem;
+  font-size: 0.32rem;
+  font-weight: 600;
+  color: #fb882b;
+}
+.go {
+  display: block;
+  width: 1.1rem;
+  height: 1.1rem;
+  border: none !important;
+  background-color: transparent !important;
+  border-radius: 50%;
+  overflow: hidden;
+  background-image: url(../static/images/user/go.png);
+  background-size: 100%;
+  background-repeat: no-repeat;
+  margin: 1.2rem auto;
+  /* trans; */
+  transform: rotate(90deg);
+}
+.check-system {
   width: fit-content;
 }
-/deep/.van-field__control{
-  font-size: .28rem;
+/deep/.van-field__control {
+  font-size: 0.28rem;
   font-weight: 600;
-  color: #382623;
-
+  color: #fff;
 }
-img{
+/deep/.van-cell::after {
+  border: none;
+}
+img {
   width: 100%;
   vertical-align: top;
 }
-
 </style>

@@ -3,7 +3,7 @@
           <!-- <span> Product </span> -->
           Product
     </div>
-    <pointsList :list="list" :loading='loading' :finished='finished' @ajaxLoad='ajaxLoad' @handleDeleteItem='handleDeleteItem'/>
+    <pointsList :list="list" :loading='loading' :finished='finished' @ajaxLoad='ajaxLoad' @handleCellItem='handleCellItem' :cellType="'order'"/>
 </template>
 
 <script>
@@ -23,6 +23,7 @@ export default {
         descTitle:'',
         descContent:'',
         pointsNum:0,
+        exchange:true,
       }]
     })
     const ajaxLoad = ()=>{
@@ -36,6 +37,7 @@ export default {
             descTitle:'',
             descContent:'',
             pointsNum:0,
+            exchange:false
           })
         }
 
@@ -48,14 +50,14 @@ export default {
         }
       }, 1000)
     }
-    const handleDeleteItem =(index)=>{
+    const handleCellItem =(index)=>{
       // console.log(ind,'22')
       state.list.splice(index,1)
     }
     return{
       ...toRefs(state),
       ajaxLoad,
-      handleDeleteItem
+      handleCellItem
     }
   }
 }
