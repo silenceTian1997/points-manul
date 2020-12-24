@@ -11,13 +11,13 @@
     <div class="form">
       <van-form @submit="handleLogin">
         <div class="form-line">
-          <van-field v-model="userId" name="id" label="Id" placeholder="Id" />
+          <van-field v-model="userId" name="number" label="Id" placeholder="Id" />
         </div>
 
         <div class="form-line">
           <van-field
             v-model="userTel"
-            name="tel"
+            name="phone"
             label="Tel"
             placeholder="Tel"
           />
@@ -38,20 +38,22 @@
             readonly
             clickable
             label="Dept"
-            name="dept"
+            name="group_id"
             v-model="userDept"
             placeholder="Dept"
             @click="showPicker = true"
           />
-          <div class="mask" v-if="showPicker" @click=" showPicker = false">
-            <div class="popup">
-              <van-picker
-                :columns="columns"
-                @cancel="showPicker = false"
-                @confirm="onConfirm"
-              />
-            </div>
-          </div>
+
+        
+        <van-popup v-model:show="showPicker" round position="bottom">
+  <van-picker
+    :columns="deptNameList"
+    @cancel="showPicker = false"
+    @confirm="onConfirm"
+  />
+</van-popup>
+        
+        
         </div>
         <!-- </div> -->
         <van-button class="go" native-type="submit"> </van-button>
@@ -65,6 +67,7 @@
 <script>
 import { reactive, toRefs, onMounted, ref } from "vue";
 import { getInstance, getLocal, setLocal } from "../utils/utils";
+import { apiInsertUser , apiGetGroup } from '../request/api'
 export default {
   setup(ctx, cont) {
     const instance = getInstance();
@@ -76,7 +79,8 @@ export default {
       themeStyle: "staff",
       value: "",
       showPicker: false,
-      columns: ["杭州", "宁波", "温州", "绍兴", "湖州", "嘉兴", "金华", "衢州"],
+      deptList:'',
+      deptNameList: ["杭州", "宁波", "温州", "绍兴", "湖州", "嘉兴", "金华", "衢州"],
     });
     const handleCheckSystem = () => {
       let prvTheme = getLocal("theme");
@@ -99,13 +103,46 @@ export default {
       console.log(state.userDept);
       state.showPicker = false;
     };
-    const handleLogin = (values) => {
+    const handleLogin = async (values) => {
       console.log("dd", values);
+
+      // 字转id
+      let dataObj = values
+      let {group_id}  = dataObj
+      let id = ''
+       state.deptList.map(item=>{
+          if (item.group_name === group_id) {
+              id = item.id
+          }
+      })
+      dataObj.group_id = id
+      console.log(dataObj)      
       //成功 跳转 员工
+      // return
+      let res =  apiInsertUser(dataObj)
+      console.log(res)
+          instance.$toast(res.msg)
+      if (res.code === -1 ) {
+          instance.$toast(res.msg)
+      }
       console.log(ctx, "c", cont);
       instance.$router.push("home");
     };
+    const getGroup = async() =>{
+      
+        let res =  await apiGetGroup()
+        console.log(res)
+        if (res.code == 1) {
+          state.deptList  = res.lists
+          let deptNameLisi = []
+          deptNameLisi = res.lists.map(item=>{
+              return  item.group_name
+        })
+          state.deptNameList  = deptNameLisi
+      }
+    }
     onMounted(() => {
+      getGroup()
       state.themeStyle = getLocal("theme");
     });
     return {
@@ -135,25 +172,7 @@ export default {
   height: 2.02rem;
   margin: 0 auto 0.76rem;
 }
-.mask {
-  position: fixed;
-  width: 100%;
-  height: 100%;
-  z-index: 9;
-}
-.popup {
-  position: fixed;
-  z-index: 9;
-  width: 100%;
-  height: 30%;
-  bottom: 0;
-  left: 0;
-  padding: 0.4rem;
-  border-top-left-radius: 0.4rem;
-  border-top-right-radius: 0.4rem;
-  overflow: hidden;
-  background-color: #fff;
-}
+
 .form-line {
   width: 5.6rem;
   margin: 0 auto;
@@ -188,6 +207,8 @@ export default {
   font-weight: 600;
   color: #fb882b;
 }
+
+
 .go {
   display: block;
   width: 1.1rem;
