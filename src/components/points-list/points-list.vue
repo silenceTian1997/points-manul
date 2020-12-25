@@ -1,11 +1,12 @@
 <template>
       <div class="home-list theme-bg">
         <van-list
-        v-model:loading="loading"
+      
+      >
+        <!-- v-model:loading="loading"
         :finished="finished"
         finished-text="没有更多了"
-        @load="onLoad"
-      >
+        @load="onLoad" -->
         <pointsCell v-for="(item,index) in list" :key="index" :shopItem="item" :shopIndex="index" @handleCell='handleCell' :type="cellType"/>
       </van-list> 
     </div>

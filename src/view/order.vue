@@ -8,20 +8,25 @@
 
 <script>
 import pointsList from '../components/points-list/points-list'
-import { reactive, toRefs } from 'vue'
+import { onMounted, reactive, toRefs } from 'vue'
+import { useRouter } from 'vue-router'
+import { apimyOrder } from '../request/api'
 export default {
   components:{
     pointsList
   },
   setup(){
+      const Router = useRouter()
       const state = reactive({
       loading: false,
       finished: false,
       list:[{
+        id:'',
         pic:'',
         icon:'',
         descTitle:'',
         descContent:'',
+        craeteTime:'',
         pointsNum:0,
         exchange:true,
       }]
@@ -50,10 +55,50 @@ export default {
         }
       }, 1000)
     }
-    const handleCellItem =(index)=>{
-      // console.log(ind,'22')
-      state.list.splice(index,1)
+
+    const myorder = async ()=>{
+      let res = await apimyOrder()
+      console.log(res,'dd')
+      let orderList = []
+      if (res.code === 1) {
+        orderList = res.lists.map(item=>{
+            // let obj = {}
+            return {
+              id:item.id,
+              pic:'http://ep.zerom.cn/'+item.img,
+              descTitle:item.title,
+              exchange:item.status,
+              pointsNum: item.num * item.integral,
+              craeteTime:item.create_time
+            }
+
+        })
+      }
+      state.list = orderList
     }
+    
+
+    const handleCellItem =(index)=>{
+      console.log(index)
+      // 判断状态
+      let exchangeFlag = state.list[index].status
+      let queryId = state.list[index].id
+      if (!exchangeFlag) {
+        // 进入核销订单
+        Router.push({
+          path:'/mine/exchange',
+          query:{
+            queryId
+          }
+        })
+        // Router.push('/mine/exchange')
+      }
+
+      // state.list.splice(index,1)
+    }
+    onMounted(()=>{
+      myorder()
+    })
     return{
       ...toRefs(state),
       ajaxLoad,

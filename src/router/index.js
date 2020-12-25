@@ -79,6 +79,15 @@ const router = createRouter({
         barTitle:'Points view'
       },
       component: () => import('../view/points-view.vue')
+    },   
+     {
+      path: '/mine/exchange',
+      name:'exchange',
+      meta:{
+        index:1,
+        barTitle:'Exchange'
+      },
+      component: () => import('../view/exchange.vue')
     },
 
     {

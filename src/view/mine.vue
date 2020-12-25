@@ -7,9 +7,9 @@
               </div>
               <div class="user-item">
               <div class="info">
-                <div class="info-name ">Keith</div>
-                <div class="info-phone">199****9999</div>
-                <div class="info-id">10086</div>
+                <div class="info-name ">{{userinfo.name}}</div>
+                <div class="info-phone">{{userinfo.phone}}</div>
+                <div class="info-id">{{userinfo.id}}</div>
               </div>
               </div>
 
@@ -21,7 +21,7 @@
                     <img style="width:.65rem;" src="../static/images/user/jf-icon.png" alt="">
                   </div>
                   <div class="points-text m-center">Remaining score</div>
-                  <div class="points-num m-center">520</div>
+                  <div class="points-num m-center">{{userinfo.integral}}</div>
               </div>
               <div class="gap-line"></div>
               <div class="points-item" @click="handleToPath('rank')">
@@ -29,7 +29,7 @@
                     <img src="../static/images/user/rk-icon.png" alt="">
                  </div>
                   <div class="points-text m-center">Ranking</div>
-                  <div class="points-num m-center">34</div>
+                  <div class="points-num m-center">{{userinfo.Ranking}}</div>
               </div>
           </div>
 
@@ -76,12 +76,26 @@
 
 import { onMounted, reactive , toRefs } from 'vue'
 import  { useRouter } from  'vue-router'
+import { apiMy } from '../request/api'
+
 export default {
   
   setup(){
     const  Router = useRouter()
     const state = reactive({
-      mine:'mine页面'
+      // mine:'mine页面'
+      userinfo:{
+        en_name: "Keith",
+        group_id: 10086,
+        id: 1,
+        integral: 974,
+        name: "Keith",
+        number: 1,
+        phone: "199****9999",
+        status: 1,
+        type: 1,
+        uid: null
+      }
     }) 
     const handleToPath = (type)=>{
       switch (type) {
@@ -96,6 +110,14 @@ export default {
           break;
       }
     }
+    const getUserInfo = async ()=>{
+      let res = await apiMy()
+      state.userinfo = res.user
+      console.log(res)
+    }
+    onMounted(()=>{
+      getUserInfo()
+    })
     return {
       ...toRefs(state),
       handleToPath

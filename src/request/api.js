@@ -33,3 +33,6 @@ export const apimyOrder = p =>post('/index/shop/myOrder',p)
 
 // 积分排行榜
 export const apiRanking = p =>post('/index/shop/ranking',p)
+
+// 获取核销码
+export const apiGoodsCode = p =>post('/index/shop/goodsCode',p)

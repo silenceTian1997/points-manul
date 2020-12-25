@@ -7,12 +7,12 @@
         <div class="points">Points</div>
       </div>
       <div class="main">
-        <div class="content-bar" v-for="(item,index) in 5" :key="index">
-        <div class="ranking">{{index}}</div>
-        <div class="name">Keith</div>
-        <div class="id">106886</div>
+        <div class="content-bar" v-for="(item,index) in rankList" :key="index">
+        <div class="ranking">{{index +1 }}</div>
+        <div class="name">{{item.name}}</div>
+        <div class="id">{{item.group_id}}</div>
         <div class="points">
-            99
+            {{item.integral}}
           Points</div>
       </div>
       </div>
@@ -20,14 +20,26 @@
 </template>
 
 <script>
-import { reactive, toRefs } from 'vue'
+import { reactive, toRefs ,onMounted } from 'vue'
+import { apiRanking } from '../request/api.js'
 export default {
 
   setup(){
       const state = reactive({
- 
+          rankList : []
     })
-
+    const getRanking = async ()=>{
+      let res = await apiRanking()
+      console.log(res)
+      if (res.code === 1) {
+       state.rankList = res.lists
+      }else{
+        console.log(res.msg)
+      }
+    }
+    onMounted(()=>{
+      getRanking()
+    })
 
     return{
       ...toRefs(state),

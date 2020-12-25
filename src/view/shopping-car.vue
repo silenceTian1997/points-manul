@@ -2,33 +2,40 @@
      <!-- <div class="parline">
           Product
     </div> -->
-    <pointsList style="padding-bottom:14%" :list="list" :loading='loading' :finished='finished' @ajaxLoad='ajaxLoad' @handleCellItem='handleCellItem' :cellType="'shopCar'"/>
+    <pointsList style="padding-bottom:14%" :list="list"   @handleCellItem='handleCellItem' :cellType="'shopCar'"/>
+    <!-- :loading='loading' :finished='finished' @ajaxLoad='' -->
     <div class="cartotal">
         <div class="select">settlement</div>
         <div class="num-bar"> <span class="num">{{ totalPoints }}</span> Points</div>
-        <div class="gou"></div>
+        <div class="gou" @click="handleInsertOrder"></div>
     </div>
 </template>
 
 <script>
 import pointsList from '../components/points-list/points-list'
-import { reactive, toRefs } from 'vue'
+import { reactive, toRefs ,onMounted } from 'vue'
+import { apiMyCart ,apiInsertOrder , apiGoodsDel } from '../request/api'
+import { getInstance } from '../utils/utils'
 export default {
   components:{
     pointsList
   },
+  
   setup(){
+      const instance = getInstance()
       const state = reactive({
       loading: false,
       finished: false,
       totalPoints:0,
       list:[{
+        id:'',
+        pid:'',
         pic:'',
         icon:'',
         descTitle:'',
         descContent:'',
         pointsNum:0,
-        gouNum:0
+        gouNum:1
       }]
     })
     const ajaxLoad = ()=>{
@@ -91,10 +98,76 @@ export default {
       // state.list.splice(index,1)
 
     }
+    // 获取购物车列表
+    const getMyCart =  async ()=>{
+      let res  = await apiMyCart()
+      console.log(res , 'carts')
+      let cartList = []
+      if(res.code === 1){
+
+        cartList = res.lists.map(item=> new Object({
+            id:item.id,
+            pid:item.pid,
+            pic: 'http://ep.zerom.cn/' +item.img,
+            icon:'',
+            descTitle:item.title,
+            descContent:'',
+            pointsNum:item.integral,
+            gouNum:1
+        }))
+        console.log(cartList)
+        state.list = cartList
+        countTotalPoints()
+
+      }else{
+        instance.$toast(res.msg)
+      }
+
+    }
+    // 购买商品
+    const handleInsertOrder = async ()=>{
+      // 提交数量 不为零  的商品id 数量  和总积分
+      let dataObj = {}
+      let goodsId = []
+      let integral = state.totalPoints
+      goodsId  = state.list.map(item=>{
+        if (item.gouNum !== 0) {
+          return new Object({
+            pid:item.pid,
+            id:item.id,
+            num:item.gouNum
+          })
+        }else{
+          return false
+        }
+      })
+      dataObj = {
+        goodsId,
+        integral
+      }
+      console.log(dataObj)
+      if (dataObj.goodsId[0] == false) {
+        instance.$toast('请挑选合适的商品')
+        return
+      }
+      let res = await apiInsertOrder(dataObj)
+      if (res.code === 1) {
+        instance.$toast(res.msg)
+        onMounted()
+      }else{
+        instance.$toast(res['0'])
+      }
+    }
+    onMounted(()=>{
+        // console.log('carts')
+        getMyCart()
+     })
+
     return{
       ...toRefs(state),
       ajaxLoad,
-      handleCellItem
+      handleCellItem,
+      handleInsertOrder
     }
   }
 }

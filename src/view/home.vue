@@ -15,11 +15,11 @@
     </div>
     <div class="home-list theme-bg">
         <van-list
-        v-model:loading="loading"
-        :finished="finished"
-        finished-text="没有更多了"
-        @load="onLoad"
       >
+        <!-- v-model:loading="loading"
+        :finished="finished"
+        finished-text="没有更多了" -->
+        <!-- @load="onLoad" -->
         <pointsCell v-for="(item,index) in list" :key="index" :shopItem="item" :shopIndex="index" @handleCell='handleCell'/>
       </van-list> 
     </div>
@@ -37,27 +37,68 @@
 <script>
 import { onMounted , reactive , toRefs } from 'vue'
 import { useRouter  } from 'vue-router'
+import { apiGetGoods , apiGoodsAdd , apiGoodsDel } from '../request/api'
+import { getInstance } from '../utils/utils'
 import pointsCell from '../components/points-cell'
+
 export default {
   components:{
     pointsCell
   },
   setup(){
-     const router = useRouter();
+    const router = useRouter();
+    const instance = getInstance()
+
     const state = reactive({
       home : 'home hello ',
       list: [{
       pic:require('../static/images/login/j1.png'),
-        icon:'',
-        descTitle:'A bunch of flowers',
-        descContent:'Flower express 33 rose bouquel gift box champagne rose birthday gift proposal to girltriend ',
-        pointsNum:85,
-        car:true
+      icon:'',
+      descTitle:'A bunch of flowers',
+      descContent:'Flower express 33 rose bouquel gift box champagne rose birthday gift proposal to girltriend ',
+      pointsNum:85,
+      car:true
       }],
       carNum:0,
       loading: false,
       finished: false,
     })
+    const getGoods = async ()=>{
+       let res = await apiGetGoods()
+        console.log(res)
+        if (res.code === 1) {
+          let goodlist = []
+            goodlist =  res.lists.map(item => new Object({
+              pid:item.id,
+              pic:  'http://ep.zerom.cn/' + item.img,
+              pointsNum:item.integral,
+              descTitle:item.title,
+              descContent:item.remark,
+              icon:item.label,
+              car:item.mycart
+            }) 
+           )
+
+           state.list = goodlist
+           console.log('res',state)
+          
+        }else{
+          instance.$toast(res.msg)
+        }
+    }
+
+       // 记录所有添加的个数
+    const totalItem = ()=>{
+        let num = 0
+        state.list.map((item,index)=>{
+          if(item.car == true) {
+            num = num + 1
+          }
+        })
+        state.carNum = num 
+    }
+
+
     const   onLoad = ()=> {
       // 异步更新数据
       // setTimeout 仅做示例，真实场景中一般为 ajax 请求
@@ -83,28 +124,25 @@ export default {
       }, 1000)
     }
 
-    const handleCell = (ind)=>{
+    const handleCell = async (ind)=>{
       console.log(ind,'22')
       // state.list.splice(ind,1)
-      state.list[ind].car = !state.list[ind].car
-      console.log( state.list[ind].car)
-      // 记录所有添加的个数
-      let num = 0
-      state.list.map((item,index)=>{
-        if(item.car == true) {
-          num = num + 1
-        }
-      })
-      state.carNum = num 
-    }
+      let pid = state.list[ind].pid
+      // 判断 取消还是添加
+      let res = state.list[ind].car ?  await apiGoodsDel({pid}) : await apiGoodsAdd({pid}) 
+      if (res.code === 1) {
+        state.list[ind].car = !state.list[ind].car
+        totalItem()
+      }
+      }
+
     const toCar = ()=>{
       // Router
       router.push('/mine/shoppingCar')
     }
 
     onMounted(async ()=>{
-      state.home = 'home '
-      console.log(state.home )
+      getGoods()
     })
     return {
       ...toRefs(state),

@@ -45,8 +45,8 @@
     </template>
     <!-- 订单 -->
     <template v-if="type == 'order'">
-      <div class="shop-operate shopcar-operate" :class="!shopItem.exchange?'':'exchanged'">
-        <div class="shop-item">
+      <div class="shop-operate shopcar-operate" :class="!shopItem.exchange?'':'exchanged'" @click="handleOpShow"> 
+        <div class="shop-item" >
           <div class="point-num ed-item">{{ shopItem.pointsNum }}</div>
           <div class="point-text ed-item">points</div>
         </div>
@@ -116,6 +116,7 @@ export default {
     const handleOpShow = (options) => {
       // state.opShow = true;
       // isCar = !isCar
+      console.log('123')
       if(props.type === 'shopCar'){
         console.log(options)
         ctx.emit("handleCell", {
