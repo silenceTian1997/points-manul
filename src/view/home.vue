@@ -75,11 +75,12 @@ export default {
               descTitle:item.title,
               descContent:item.remark,
               icon:item.label,
-              car:item.mycart
+              car:item.mycart,
+              car_id:item.mycart_id
             }) 
            )
-
            state.list = goodlist
+           totalItem()
            console.log('res',state)
           
         }else{
@@ -128,9 +129,16 @@ export default {
       console.log(ind,'22')
       // state.list.splice(ind,1)
       let pid = state.list[ind].pid
+      let cart_id = state.list[ind].car_id
       // 判断 取消还是添加
-      let res = state.list[ind].car ?  await apiGoodsDel({pid}) : await apiGoodsAdd({pid}) 
+      let res = cart_id ?  await apiGoodsDel({id:cart_id}) : await apiGoodsAdd({pid}) 
+    
       if (res.code === 1) {
+      if(cart_id){
+        state.list[ind].car_id = 0
+      }else{
+        state.list[ind].car_id = res.id
+      }
         state.list[ind].car = !state.list[ind].car
         totalItem()
       }
@@ -143,6 +151,7 @@ export default {
 
     onMounted(async ()=>{
       getGoods()
+
     })
     return {
       ...toRefs(state),

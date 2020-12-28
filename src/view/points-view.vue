@@ -9,8 +9,8 @@
           <div style="width:6rem;height:6rem" ref="chart"></div>
         </div>
         <div class="data-detail">
-          <div class="detail-item" v-for="(item,index) in 6" :key="index">
-            <p class="left" :class="'t'+index">Points{{index +1}}</p><p class="right">200</p>
+          <div class="detail-item" v-for="(item,index) in sourceArr" :key="index">
+            <p class="left" :class="'t'+index">{{item.name}}</p><p class="right">{{item.source}}</p>
           </div>
         </div>
       </div>
@@ -19,15 +19,20 @@
 </template>
 
 <script>
+import { apiSource } from '../request/api'
 const echarts = require('echarts');
 export default{
 	data () {
-	return {};
+	return {
+    sourceArr:[]
+  };
 	},
 methods: {
-	initCharts () {
+	initCharts (indicatorArr,valueArr) {
 	let myChart = echarts.init(this.$refs.chart);
-	// 绘制图表
+  // 绘制图表
+
+
 	myChart.setOption({
 //  title: {
 //         text: '基础雷达图'
@@ -47,14 +52,7 @@ methods: {
                 // padding: [3, 5]
             }
         },
-        indicator: [
-            { name: 'points1', max: 6500,  color:'#d19e3e'},
-            { name: 'points2', max: 16000 ,color:'#fb882b'},
-            { name: 'points3', max: 30000 ,color:'#00ccff'},
-            { name: 'points4', max: 38000 ,color:'#33cc99'},
-            { name: 'points5', max: 52000 ,color:'#9966ff'},
-            { name: 'points6', max: 25000 ,color:'#cc3300'}
-        ],
+        indicator: indicatorArr,
          splitArea: {
                 areaStyle: {
                     color: ['rgba(173, 118, 57, 0.2)',
@@ -77,7 +75,7 @@ methods: {
         radius: 80,
     },
         series: [{
-        name: '预算 vs 开销（Budget vs spending）',
+        // name: '预算 vs 开销（Budget vs spending）',
         type: 'radar',
         silent:true,
         
@@ -93,8 +91,8 @@ methods: {
         },
         data: [
             {
-                value: [6000, 14000, 20000, 34000, 50000, 20000],
-                name: '123',
+                value: valueArr,
+                // name: '123',
                 areaStyle: {
                   color: 'rgba(255, 255, 255)'
                 },
@@ -105,10 +103,46 @@ methods: {
         ]
     }]
 		});
-	}
+  },
+  async getSource(){
+    let res = await apiSource()
+    let colorObj = [
+      '#d19e3e',
+      '#fb882b',
+      '#00ccff',
+      '#33cc99',
+      '#9966ff',
+      '#cc3300',
+      ]
+    let valueArr = []
+     valueArr = res.lists.map(item=>
+         item.integral
+     )
+     let maxNum = Math.max(...valueArr)
+     console.log(maxNum)
+
+     let indicatorArr = []
+      indicatorArr = res.lists.map((item,index)=> {
+        return new Object({
+        name:item.name,
+        max:maxNum,
+        color:colorObj[index]
+      })
+      })
+    
+     this.sourceArr = indicatorArr.map((item,index)=>{
+       return new Object({
+         name:item.name,
+         source:valueArr[index]
+       })
+     })
+
+    this.initCharts(indicatorArr,valueArr)
+  }
 },
+
 mounted () {
-this.initCharts();
+  this.getSource()
 }
 }
 </script>

@@ -36,3 +36,14 @@ export const apiRanking = p =>post('/index/shop/ranking',p)
 
 // 获取核销码
 export const apiGoodsCode = p =>post('/index/shop/goodsCode',p)
+
+// 核销码状态
+export const apiGoodsStatus = p =>post('/index/shop/goodsStatus',p)
+
+// 管理核销码
+export const apiGoodsEdit = p =>post('/index/shop/goodsEdit',p)
+
+// 积分分析
+export const apiSource = p =>post('/index/shop/source',p)
+
+
