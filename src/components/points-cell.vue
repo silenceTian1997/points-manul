@@ -30,6 +30,7 @@
     <!-- 购物车 -->
     <template v-if="type == 'shopCar'">
       <div class="shop-operate shopcar-operate">
+        <div class="delcart" @click="handleOpShow('del')"></div>
         <div class="shop-item">
           <div class="point-num ed-item">{{ shopItem.pointsNum }}</div>
           <div class="point-text ed-item">points</div>
@@ -205,6 +206,7 @@ img {
   margin-left: auto;
   overflow: hidden;
   border: 1px solid #392724;
+  position: relative;
 }
 .shopcar-operate {
   display: flex;
@@ -304,5 +306,14 @@ img {
 }
 .yecar{
   background-color: #c2bbab;
+}
+.delcart{
+  position: absolute;
+  width: .3rem;
+  height: .3rem;
+  top: 0;
+  right: 0;
+  background-size: 100%;
+  background-image: url(../static/images/user/del-icon.png);
 }
 </style>

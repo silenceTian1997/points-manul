@@ -36,7 +36,7 @@
           <div class="mine-navbar">
                <van-cell class="navbar" is-link to="/mine/order" >
                   <template #title>
-                      <img style="width:.5rem ; margin-right:.4rem" src="../static/images/user/a1.png" alt="">
+                      <img style="width:.5rem ; margin-right:.4rem" src="../static/images/user/order.png" alt="">
                     <span class="custom-title">Your order</span>
                   </template>
               </van-cell>
@@ -49,7 +49,7 @@
               </van-cell> -->
                <van-cell class="navbar" is-link to="/mine/shoppingCar" >
                   <template #title>
-                    <img style="width:.5rem ; margin-right:.4rem" src="../static/images/user/a1.png" alt="">
+                    <img style="width:.5rem ; margin-right:.4rem" src="../static/images/user/cart.png" alt="">
 
                     <span class="custom-title">shoppingCar</span>
                   </template>
@@ -63,7 +63,7 @@
               </van-cell> -->
                <van-cell  class="navbar" is-link to="/mine/more" >
                   <template #title>
-                    <img style="width:.5rem ; margin-right:.4rem" src="../static/images/user/a1.png" alt="">
+                    <img style="width:.5rem ; margin-right:.4rem" src="../static/images/user/set.png" alt="">
 
                     <span class="custom-title">More</span>
                   </template>

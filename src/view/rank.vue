@@ -5,14 +5,16 @@
           <div class="my-r-i">
             <img src="../static/images/user/myrank-icon.png" alt="">
           </div>
-          36
+          <!-- 36 -->
+          {{myRanking}}
         </div>
         <div class="my-line"></div>
         <div class="my-item">
           <div class="my-r-i">
             <img src="../static/images/user/pro-icon.png" alt="">
           </div>
-          46.3%
+          <!-- 46.3% -->
+          {{pro}}
         </div>
         <div class="my-line"></div>
 
@@ -20,14 +22,15 @@
           <div class="my-r-i">
             <img src="../static/images/user/heighset-icon.png" alt="">
           </div>
-            1020
+            {{rankList[0]['integral']}}
         </div>
         <div class="my-line"></div>
         <div class="my-item">
           <div class="my-r-i">
             <img src="../static/images/user/average-icon.png" alt="">
           </div>
-          730
+          <!-- 730 -->
+          {{pingjun}}
         </div>
       </div>
 
@@ -63,14 +66,21 @@ export default {
   setup(){
       const state = reactive({
           rankList : [
-         
-          ]
+          ],
+          pingjun:'',
+          pro:'',
+          myRanking:''
+
     })
     const getRanking = async ()=>{
       let res = await apiRanking()
       console.log(res.lists)
       if (res.code === 1) {
        state.rankList = res.lists
+       state.pingjun = res.pingjun
+       state.pro = res.pro
+       state.myRanking = res.ranking
+
       }else{
         console.log(res.msg)
       }

@@ -9,7 +9,10 @@ export default createStore({
     //登录返回信息
     loginInfo : {},
     // 主题状态
-    themeState : 'staff'
+    themeState : 'staff',
+    op:'',
+    integral:0
+
   },
   mutations: {
     // wsTokenChange(state,str){

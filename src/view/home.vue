@@ -85,6 +85,7 @@ export default {
           
         }else{
           instance.$toast(res.msg)
+          localStorage.removeItem('logined')
         }
     }
 

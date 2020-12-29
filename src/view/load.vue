@@ -24,7 +24,6 @@ export default {
   setup() {
     const instance = getInstance()
     const state = reactive({
-      load: "loading",
     })
 
     onMounted(() => {
@@ -41,7 +40,12 @@ export default {
 
     const handleGologin = ()=>{
       console.log('ggg')
-      instance.$router.push('login')
+      let logined = instance.$store.state.isLogin || getLocal('logined')
+      if(logined){
+        instance.$router.push('home')
+      }else{
+        instance.$router.push('login')
+      }
     }
     return {
       ...toRefs(state),

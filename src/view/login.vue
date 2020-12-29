@@ -119,14 +119,38 @@ export default {
       console.log(dataObj)      
       //成功 跳转 员工
       // return
-      let res =  apiInsertUser(dataObj)
-      console.log(res)
-          instance.$toast(res.msg)
-      if (res.code === -1 ) {
-          instance.$toast(res.msg)
+      // 不能为空
+       let phoneReg = /^1[3456789]\d{9}$/
+      for (const key in dataObj) {
+     
+         
+        if (dataObj[key] == '') {
+
+          instance.$toast.loading({
+            message: '请填写完整',
+            forbidClick: true,
+          });
+            return
+        }
+        if (!phoneReg.test(dataObj['phone'])) {
+          instance.$toast('手机号有误')
+          return
+        }
       }
-      console.log(ctx, "c", cont);
-      instance.$router.push("home");
+
+
+      let res = await apiInsertUser(dataObj)
+      if (res.code == 1) {
+        instance.$store.state.isLogin
+         setLocal('logined',true)
+         instance.$router.push("home");
+      }else{
+        instance.$toast.loading({
+            message: res.msg,
+            forbidClick: true,
+          })
+      }
+  
     };
     const getGroup = async() =>{
       

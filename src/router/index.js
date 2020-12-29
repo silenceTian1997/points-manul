@@ -6,7 +6,10 @@ const router = createRouter({
     
     {
       path: '/',
-      redirect:'load'
+      redirect:'load',
+      meta:{
+        white:true
+      }
     },
     {
       path: '/load',
@@ -14,6 +17,7 @@ const router = createRouter({
       meta:{
         index:1,
         tabbarhidd:true,
+        white:true
       },
       component: () => import('../view/load.vue')
     },
@@ -23,6 +27,7 @@ const router = createRouter({
       meta:{
         index:1,
         tabbarhidd:true,
+        white:true
       },
       component: () => import('../view/login.vue')
     },

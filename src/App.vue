@@ -1,6 +1,6 @@
 <template>
   <div class="container" :class="themeStyle === 'staff'?'staff':'admin'">
-    <pointsTopbar :barTitle="topTitle" :barPoints="1213" :icon="icon" v-if="topTitle" />
+    <pointsTopbar :barTitle="topTitle" :barPoints="jfNum" :icon="icon" v-if="topTitle" />
     <router-view class="content-view"></router-view>
     <pointsTabbar v-if="tabbarHidd"/>
  
@@ -15,7 +15,8 @@ import { onMounted, reactive, toRefs,  } from "vue"
 import { setLocal , getLocal , getInstance } from './utils/utils'
 import pointsTabbar from './components/points-tabbar.vue'
 import pointsTopbar from './components/points-topbar.vue'
-// import { apiIndex }from './request/api.js'
+import { apiLogin }from './request/api.js'
+import axios from 'axios'
 export default {
   name: "App",
   components: {
@@ -33,12 +34,95 @@ export default {
       tabbarHidd:false,
       topTitle:'points',
       icon :'',
-      themeStyle:'staff'
+      themeStyle:'staff',
+      jfNum:0
     });
+
+     const getUrl = (name)=>{
+      var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+      var r = window.location.search.substr(1).match(reg);
+      if (r != null) return unescape(r[2]);
+      return null;
+    }
+
+    const wxAuth = ()=>{
+      var _this = instance
+      let code = getUrl("code");
+
+    if (code == "" || code == null) {
+      
+    axios.post('index/shop/login').then(response => {
+        console.log(response)
+        _this.rescode = response.data.code
+        if(response.data.code == 202){ 
+          let redirectUrl = window.location.href;
+          redirectUrl = encodeURIComponent(redirectUrl);
+          console.log(redirectUrl);
+          const appid = "wxc65719486704e260";
+          window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=${appid}&redirect_uri=${redirectUrl}&response_type=code&scope=snsapi_base&state=123#wechat_redirect`;
+        }
+        if(response.data.code == 203){ 
+              _this.$store.state.integral =  response.data.integral
+        }
+        
+    }).catch(err=>{
+        console.log(err,'报错')
+    })
+    
+    } else {
+      _this.code = code;
+      var data = {
+        code: _this.code,
+      };
+      if(_this.rescode == 203) {
+           if(response.data.count != 0){
+           _this.$store.state.isLogin  = true
+              setLocal('logined',true)
+              // _this.$router.push("home");
+          }else{
+              _this.$store.state.isLogin  = false
+              localStorage.setItem('logined',false)
+          }
+        return
+        }
+      axios.post('/index/shop/login',data).then(response => {
+        console.log(response)
+        _this.rescode = response.data.code
+        if (response.data.code == 203) {
+              _this.$store.state.integral =  response.data.integral
+          
+        }
+        if(response.data.op == null) {
+        window.location.href = 'http://ep.zerom.cn/shop/index/index.html'
+        return
+        }
+        // _this.$store.commit('op', response.data.op);
+          _this.$store.state.isLogin  = response.data.op
+
+          if(response.data.count != 0){
+           _this.$store.state.isLogin  = true
+              setLocal('logined',true)
+              console.log('set')
+            _this.$store.state.integral =  response.data.integral
+              // _this.$router.push("home");
+          }else{
+              _this.$store.state.isLogin  = false
+              localStorage.setItem('logined',false)
+          }
+    }).catch(err=>{
+        console.log(err,'报错2')
+        window.location.href = 'http://ep.zerom.cn/shop/index/index.html'
+    })
+    //   this.getopenid_data(data);
+    }
+    }
+
+
 
     onMounted(() => {
       // console.log(123)
       handleApi()
+      wxAuth()
      let orgtheme =  getLocal('theme') 
       if(!orgtheme) {
        setLocal('theme','staff')
@@ -137,7 +221,12 @@ export default {
        this.topTitle = newpath.meta.barTitle
        this.icon = topIconObj[this.topTitle]
        console.log(this.icon)
-    }
+    },
+    '$store.state.integral'(newval, olval) {
+      console.log(newval,'route');
+      // this.themeStyle = newval
+      this.jfNum = newval
+    },
 }
 
 };

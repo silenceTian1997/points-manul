@@ -1,14 +1,15 @@
 <template>
       <div class="home-list theme-bg">
-        <van-list
-      
-      >
+        <van-list v-if="list.length">
         <!-- v-model:loading="loading"
         :finished="finished"
         finished-text="没有更多了"
         @load="onLoad" -->
-        <pointsCell v-for="(item,index) in list" :key="index" :shopItem="item" :shopIndex="index" @handleCell='handleCell' :type="cellType"/>
+        <pointsCell v-for="(item,index) in list" :key="index" :shopItem="item" :shopIndex="index" @handleCell='handleCell' :type="cellType" />
       </van-list> 
+      <div class="no-one" v-else>
+          空空如也
+      </div>
     </div>
 </template>
 
@@ -80,5 +81,11 @@ import pointsCell from '../points-cell'
      overflow-x:hidden ;
      overflow-y: scroll;
      padding: 0 .2rem;
+   }
+   .no-one{
+     color: #db6841;
+    font-size: .38rem;
+    font-weight: 600;
+    text-align: center;
    }
 </style>

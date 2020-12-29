@@ -2,7 +2,7 @@
      <!-- <div class="parline">
           Product
     </div> -->
-    <pointsList style="padding-bottom:14%" :list="list"   @handleCellItem='handleCellItem' :cellType="'shopCar'"/>
+    <pointsList style="padding-bottom:14%" :list="list"   @handleCellItem='handleCellItem' :cellType="'shopCar'" />
     <!-- :loading='loading' :finished='finished' @ajaxLoad='' -->
     <div class="cartotal">
         <div class="select">settlement</div>
@@ -27,16 +27,7 @@ export default {
       loading: false,
       finished: false,
       totalPoints:0,
-      list:[{
-        id:'',
-        pid:'',
-        pic:'',
-        icon:'',
-        descTitle:'',
-        descContent:'',
-        pointsNum:0,
-        gouNum:1
-      }]
+      list:[]
     })
     const ajaxLoad = ()=>{
       console.log('触发加载')
@@ -74,7 +65,7 @@ export default {
     }
 
 
-    const handleCellItem =(opt)=>{
+    const handleCellItem = async(opt)=>{
       console.log(opt,'22')
       let {options:countType , isIndex} = opt
       switch (countType) {
@@ -92,12 +83,25 @@ export default {
             countTotalPoints()
 
           break;
+        case 'del':
+          let id = state.list[isIndex].id
+          let res = await apiGoodsDel({id})
+          if(res.code == 1){
+            state.list.splice(isIndex,1)
+          }else{
+            instance.$toast(res.msg) }
+          break;
         default:
           break;
       }
       // state.list.splice(index,1)
 
     }
+    // 删除
+    const handlegoodDel = async (id)=>{
+      
+    }
+    
     // 获取购物车列表
     const getMyCart =  async ()=>{
       let res  = await apiMyCart()
@@ -130,15 +134,13 @@ export default {
       let dataObj = {}
       let goodsId = []
       let integral = state.totalPoints
-      goodsId  = state.list.map(item=>{
+      state.list.map(item=>{
         if (item.gouNum !== 0) {
-          return new Object({
+          goodsId.push(new Object({
             pid:item.pid,
             id:item.id,
             num:item.gouNum
-          })
-        }else{
-          return false
+          }))
         }
       })
       dataObj = {
@@ -146,14 +148,23 @@ export default {
         integral
       }
       console.log(dataObj)
-      if (dataObj.goodsId[0] == false) {
+      if (dataObj.goodsId.length == 0) {
         instance.$toast('请挑选合适的商品')
         return
       }
       let res = await apiInsertOrder(dataObj)
       if (res.code === 1) {
         instance.$toast(res.msg)
-        onMounted()
+        let newList = []
+        state.list.map((item,index)=>{
+            if (item.gouNum == 0) {
+              newList.push(item)
+            }
+        })
+        state.list = newList
+        countTotalPoints()
+        instance.$store.state.integral = res.integral
+        // onMounted()
       }else{
         instance.$toast(res['0'])
       }
