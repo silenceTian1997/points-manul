@@ -3,7 +3,7 @@
       <div class="main">
         <div class="title-bar">
           <div class="title-text">remaining score</div>
-          <div class="title-points">520 points</div>
+          <div class="title-points"><span class="total-num">{{totalNum}}</span> points</div>
         </div>
         <div class="data-pic">
           <div style="width:6rem;height:6rem" ref="chart"></div>
@@ -24,7 +24,8 @@ const echarts = require('echarts');
 export default{
 	data () {
 	return {
-    sourceArr:[]
+    sourceArr:[],
+    totalNum:0
   };
 	},
 methods: {
@@ -136,7 +137,7 @@ methods: {
          source:valueArr[index]
        })
      })
-
+    this.totalNum = res.integral
     this.initCharts(indicatorArr,valueArr)
   }
 },
@@ -152,10 +153,20 @@ mounted () {
   width: 7.1rem;
   margin: 0 auto;
   background-color: #3c2a26;
+  border: 1px solid #392723;
+  border-radius: .1rem;
+  padding-bottom: .6rem;
 }
 .title-bar{
-  display: flex;
-  justify-content: space-between;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 1rem;
+    padding: 0 .2rem;
+    border-bottom: 1px solid #4f2c25;
+}
+.total-num{
+  font-size: .44rem;
 }
 .title-text{
   width: fit-content;
@@ -164,7 +175,7 @@ mounted () {
 }
 .title-points{
   width: fit-content;
-  font-size: .26rem;
+  font-size: .28rem;
   color: #f9ca00;
 }
 .data-pic{
@@ -173,8 +184,13 @@ mounted () {
   justify-content: center;
 }
 .detail-item{
+  width: 5.1rem;
+  height: .5rem;
+  margin: 0 auto .06rem;
   display: flex;
   justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #4f2c25;
 }
 .left{
   font-size:.26rem ;

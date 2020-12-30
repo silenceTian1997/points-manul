@@ -4,7 +4,7 @@
       <img :src="icon" alt="">
     </div>
     <div class="bar-title"> {{ barTitle }}</div>
-    <div class="bar-points">
+    <div class="bar-points" v-if="barTitle != 'Points view'">
       <div class="points-num">{{ barPoints }}</div> 
       <div class="points-text">Points</div>
       </div>
