@@ -94,6 +94,17 @@ const router = createRouter({
       },
       component: () => import('../view/exchange.vue')
     },
+     {
+      path: '/mine/check',
+      name:'check',
+      meta:{
+        index:1,
+        tabbarhidd:true,
+        white:true
+        // barTitle:'check'
+      },
+      component: () => import('../view/check.vue')
+    },
 
     {
       path: '/adminHome',

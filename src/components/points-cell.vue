@@ -117,6 +117,9 @@ export default {
     const handleOpShow = (options) => {
       // state.opShow = true;
       // isCar = !isCar
+
+
+
       console.log('123')
       if(props.type === 'shopCar'){
         console.log(options)
@@ -125,6 +128,11 @@ export default {
           options
         });
       }else{
+        
+        if (props.type === 'order' && props.shopItem.exchange) {
+          return
+        }
+
 
         ctx.emit("handleCell", isIndex);
       }
@@ -193,11 +201,23 @@ img {
   color: #dc6841;
   font-weight: bold;
   margin-bottom: 0.2rem;
+  text-overflow: -o-ellipsis-lastline;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
 }
 .desc-content {
   font-size: 0.2rem;
   line-height: 1.2;
   color: #8d8176;
+  text-overflow: -o-ellipsis-lastline;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
 }
 .shop-operate {
   width: 1.45rem;

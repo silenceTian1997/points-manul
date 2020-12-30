@@ -2,25 +2,26 @@
   <div class="ex-page">
       <div class="title">
           <div class="icon">
-              <img @click="()=>{return}" src="../static/images/user/jf.png" alt="">
+              <img src="../static/images/user/jf.png" alt="">
           </div>
-          Please show the exchange code 
+          Please Confirm product information
       </div>
       <pointsCell class="cell" :shopItem="sItem"></pointsCell>
     <!-- 兑换 -->
 
     <div class="qritem">
-      <img class="qrcode" :src="codeImg" alt="">
-      Please show the QR code for verification and collection
+      <!-- <img class="qrcode" :src="codeImg" alt=""> -->
+        <div class="btn" :class="isChecked?'checked':'' " @click="handleGoodsEdit">Confirm</div>
+      Please check the information carefully
     </div>
     </div>
 </template>
 
 <script>
-import { apiGoodsCode } from '../request/api.js'
+import { apiGoodsStatus, apiGoodsEdit } from '../request/api.js'
 import { reactive, toRefs,onMounted } from 'vue'
-import { useRoute} from 'vue-router'
 import { getInstance } from '../utils/utils'
+import { useRoute} from 'vue-router'
 import pointsCell from '../components/points-cell'
 export default {
   components: {
@@ -31,8 +32,8 @@ export default {
     const instance = getInstance()
     const Route = useRoute()
     const state = reactive({
-        codeImg : '',
-         sItem:{
+        // codeImg : ''
+        sItem:{
         pic: require("../static/images/login/j1.png"),
         icon: "",
         descTitle: "A bunch of flowers",
@@ -42,12 +43,14 @@ export default {
         car:false,
         gouNum:0
       },
+      isChecked:0
     })
-    const GoodsCode = async ()=>{
-      let {queryId:id} = Route.query
+    const GoodsStatus = async ()=>{
+      let {id} = Route.query
 
-      let res = await apiGoodsCode({id})
+      let res = await apiGoodsStatus({id})
       if (res.code === 1) {
+        // state.sItem = res.code_img
         let shop = {
             pic: 'http://ep.zerom.cn/' + res.goods.img,
             icon: "",
@@ -57,22 +60,42 @@ export default {
             car:res.goods.status,
             gouNum:0
           }
-        state.sItem =  shop
-        state.codeImg = res.code_img
+
+         state.sItem =  shop
+         state.isChecked = res.goods.status
       }else{
-        instance.$toast.loading({
-              message: res.msg,
-              forbidClick: true,
-        });
+        console.log(res.msg)
       }
+      console.log(res)
+    }
+    const handleGoodsEdit = async ()=>{
+      if (state.isChecked) {
+        // instance.$toast.loading({
+        //     message: '已核销',
+        //     forbidClick: true,
+        // });
+        return
+      }
+      let {id} = Route.query
+      let res = await apiGoodsEdit({id})
+      if (res.code == 1) {
+         state.sItem.car = 1
+         state.isChecked = 1
+      }
+      instance.$toast.loading({
+            message: res.msg,
+            forbidClick: true,
+      });
+      console.log(res)
     }
     onMounted(()=>{
       //
-      GoodsCode()
+      GoodsStatus()
     })
 
     return {
       ...toRefs(state),
+      handleGoodsEdit
     }
   }
 }
@@ -88,6 +111,7 @@ export default {
     height: 8rem;
     margin: 0 auto;
     background-color: #3c2a26;
+    padding-top: 10vh;
   }
   .title{
     width: 2.4rem;
@@ -99,6 +123,7 @@ export default {
     flex-direction: column;
     color: #cd623e;
     font-weight: 600;
+    text-align: center;
   }
   .cell{
     margin-bottom: 1rem;
@@ -125,5 +150,23 @@ export default {
     overflow: hidden;
     margin-bottom: .5rem;
   }
-
+  .btn{
+    width: 1.4rem;
+    height: .8rem;
+    border-radius: .1rem;
+    overflow: hidden;
+    background-color: #fb882b;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: .28rem;
+    margin-bottom: .4rem;
+  }
+  .btn:active{
+    opacity: .8;
+  }
+  .checked{
+    background-color:#eeeae8;
+    color: #3c2a26;
+  }
 </style>

@@ -61,13 +61,13 @@
                     <span class="custom-title">pointsView</span>
                   </template>
               </van-cell> -->
-               <van-cell  class="navbar" is-link to="/mine/more" >
+               <!-- <van-cell  class="navbar" is-link to="/mine/more" >
                   <template #title>
                     <img style="width:.5rem ; margin-right:.4rem" src="../static/images/user/set.png" alt="">
 
                     <span class="custom-title">More</span>
                   </template>
-              </van-cell>
+              </van-cell> -->
           </div>
     </div>
 </template>

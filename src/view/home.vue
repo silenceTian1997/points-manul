@@ -80,6 +80,7 @@ export default {
             }) 
            )
            state.list = goodlist
+           instance.$store.state.integral =  res.integral
            totalItem()
            console.log('res',state)
           

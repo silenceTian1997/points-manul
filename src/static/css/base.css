@@ -26,6 +26,8 @@ li{
 img{
   vertical-align: middle;
   border: none;
+  -webkit-touch-callout: none;
+  pointer-events: none;
 }
 input{
   outline: none;
