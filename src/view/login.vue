@@ -111,7 +111,7 @@ export default {
       let {group_id}  = dataObj
       let id = ''
        state.deptList.map(item=>{
-          if (item.group_name === group_id) {
+          if (item.name === group_id) {
               id = item.id
           }
       })
@@ -160,7 +160,7 @@ export default {
           state.deptList  = res.lists
           let deptNameLisi = []
           deptNameLisi = res.lists.map(item=>{
-              return  item.group_name
+              return  item.name
         })
           state.deptNameList  = deptNameLisi
       }

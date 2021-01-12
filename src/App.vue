@@ -121,7 +121,7 @@ export default {
 
     onMounted(() => {
       // console.log(123)
-      handleApi()
+      // handleApi()
       wxAuth()
      let orgtheme =  getLocal('theme') 
       if(!orgtheme) {
@@ -191,10 +191,10 @@ export default {
     //     console.log(theme,'theme')
     //     // 是否 隐藏tabbar
     // })
-    const  handleApi = async ()=>{
-        // let res = await apiIndex()
-        // console.log(res)
-    }
+    // const  handleApi = async ()=>{
+    //     // let res = await apiIndex()
+    //     // console.log(res)
+    // }
 
     return {
       ...toRefs(state),

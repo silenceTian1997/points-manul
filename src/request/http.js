@@ -3,9 +3,9 @@
  */
 import axios from 'axios';
 import QS from 'qs';
-// import { Toast,Notify } from 'vant';
+import { Toast,Notify } from 'vant';
 import store from '../store'
-// import router from '../router'
+import router from '../router'
 
 
 axios.defaults.baseURL = store.state.webPath + '/';
@@ -40,17 +40,18 @@ axios.interceptors.response.use(
         console.warn(response)
         if (response !== undefined && response.status === 200) {
             //可判断服务器返回状态
-            // if(response.data.code == 999){
-            //     store.commit('isLoginChange',false);
-            //     store.commit('tokenChange',"");
-            //     store.commit('wsTokenChange',"");
-            //     Notify({ type: 'warning',message: '请登录'});
-            //     Toast.clear();
-            //     router.push({
-            //         path : '/login'
-            //     })
-            //     return;
-            // }
+            if(response.data.code == 40001 || response.data.code == 40002){
+                store.commit('isLogin','');
+                window.localStorage.removeItem('logined')
+                // store.commit('tokenChange',"");
+                // store.commit('wsTokenChange',"");
+                Notify({ type: 'warning',message: '请登录'});
+                Toast.clear();
+                router.push({
+                    path : '/login'
+                })
+                return;
+            }
             // if(response.data.code != 1){
             //     Toast({
             //         position : 'bottom',

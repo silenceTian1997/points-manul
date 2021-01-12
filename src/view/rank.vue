@@ -43,15 +43,17 @@
         <div class="points">Points</div>
       </div>
       <div class="main">
-        <div class="content-bar" :class="'pm'+(index+1)" v-for="(item,index) in rankList" :key="index">
-        <div class="ranking-item">{{ (index +1) < 10 ? '0'+(index +1) : (index+1) }}</div>
-        <div class="name-item">{{item.name}}</div>
-        <div class="id-item">{{item.group_id}}</div>
-        <div class="points-item">
-           <div class="i-num"> {{item.integral}}</div>
-            <div class="i-en">Points</div>
-          </div>
-      </div>
+        <template  v-for="(item,index) in rankList" :key="index">
+          <div class="content-bar" :class="'pm'+(index+1)" v-if="(index +1) < 50">
+          <div class="ranking-item" >{{ (index +1) < 10 ? '0'+(index +1) : (index+1) }}</div>
+          <div class="name-item">{{item.name}}</div>
+          <div class="id-item">{{item.number}}</div>
+          <div class="points-item">
+            <div class="i-num"> {{item.integral}}</div>
+              <div class="i-en">Points</div>
+            </div>
+        </div>
+      </template>
       </div>
     </div>
 
@@ -65,8 +67,7 @@ export default {
 
   setup(){
       const state = reactive({
-          rankList : [
-          ],
+          rankList : [{'integral':0}],
           pingjun:'',
           pro:'',
           myRanking:''
@@ -77,8 +78,8 @@ export default {
       console.log(res.lists)
       if (res.code === 1) {
        state.rankList = res.lists
-       state.pingjun = res.pingjun
-       state.pro = res.pro
+       state.pingjun = res.pingjun.toFixed(2)  
+       state.pro = `${parseFloat(res.pro).toFixed(2)}%`
        state.myRanking = res.ranking
 
       }else{
@@ -119,6 +120,7 @@ img{
   .my-item{
     width: 1.7rem;
     text-align: center;
+    overflow: hidden;
   }
   .my-r-i{
     margin-bottom: .2rem;
@@ -134,17 +136,24 @@ img{
     border-radius: .1rem;
     border: 1px solid #382623;
     background-color: #3c2a26;
-    overflow: hidden;
+    overflow-y: scroll;
+    position: relative;
+    max-height: 65vh;
+  }
+  .main{
 
   }
   .title-bar{
     display: flex;
     justify-content: space-around;
     color: #fb882b;
+    background-color:#3c2a26;
     font-size: .24rem;
     font-weight: 600;
     padding:.14rem  0;
     border-bottom:  1px solid #582d24;
+    position: sticky;
+    top: 0;
   }
   .ranking{
     width: 1.2rem;
