@@ -11,14 +11,14 @@
     <div class="form">
       <van-form @submit="handleLogin">
         <div class="form-line">
-          <van-field v-model="userId" name="number" label="Id" placeholder="Id" />
+          <van-field v-model="userId" name="number" :label="$t('login.id')" placeholder="Id" />
         </div>
 
         <div class="form-line">
           <van-field
             v-model="userTel"
             name="phone"
-            label="Tel"
+            :label="$t('login.tel')"
             placeholder="Tel"
           />
         </div>
@@ -27,7 +27,7 @@
           <van-field
             v-model="userName"
             name="name"
-            label="Name"
+            :label="$t('login.name')"
             placeholder="Name"
           />
         </div>
@@ -37,7 +37,7 @@
           <van-field
             readonly
             clickable
-            label="Dept"
+            :label="$t('login.dep')"
             name="group_id"
             v-model="userDept"
             placeholder="Dept"
@@ -80,7 +80,7 @@ export default {
       value: "",
       showPicker: false,
       deptList:'',
-      deptNameList: ["杭州", "宁波", "温州", "绍兴", "湖州", "嘉兴", "金华", "衢州"],
+      deptNameList: [],
     });
     const handleCheckSystem = () => {
       let prvTheme = getLocal("theme");
@@ -143,7 +143,7 @@ export default {
       if (res.code == 1) {
         instance.$store.state.isLogin
          setLocal('logined',true)
-         instance.$router.push("home");
+         instance.$router.push("statement");
       }else{
         instance.$toast.loading({
             message: res.msg,
@@ -216,7 +216,7 @@ export default {
 
 .form-line .van-cell {
   width: 5.6rem;
-  height: 1rem;
+  /* height: 1rem; */
   border-radius: 0.2rem;
   border: 1px solid#623024;
   overflow: hidden;
@@ -224,7 +224,7 @@ export default {
   /* opacity: .8; */
 }
 .form-line /deep/.van-field__label {
-  width: 1rem;
+  width: auto;
   line-height: 0.56rem;
   margin-left: 0.2rem;
   font-size: 0.32rem;

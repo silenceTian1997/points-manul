@@ -1,6 +1,6 @@
 <template>
   <div class="home-page flex-column">
-    <div class="use-guide">
+    <!-- <div class="use-guide">
         <div class="parline">
           <span> use guide</span>
         </div>
@@ -8,10 +8,10 @@
   they don't use it, they will be cleared one year later, Please
   remember to exchange.remember to exchange.
 </div>
-    </div>
+    </div> -->
     <div class="main flex-column">
     <div class="parline">
-          <span> Product</span>
+          <span> {{$t('home.product')}}</span>
     </div>
     <div class="home-list theme-bg">
         <van-list
@@ -50,12 +50,12 @@ export default {
     const instance = getInstance()
 
     const state = reactive({
-      home : 'home hello ',
+      home : '',
       list: [{
-      pic:require('../static/images/login/j1.png'),
+      pic:'',
       icon:'',
-      descTitle:'A bunch of flowers',
-      descContent:'Flower express 33 rose bouquel gift box champagne rose birthday gift proposal to girltriend ',
+      descTitle:'',
+      descContent:'',
       pointsNum:85,
       car:true
       }],
@@ -76,11 +76,15 @@ export default {
               descContent:item.remark,
               icon:item.label,
               car:item.mycart,
-              car_id:item.mycart_id
+              car_id:item.mycart_id,
+              limit_num:item.limit_num2
             }) 
            )
            state.list = goodlist
-           instance.$store.state.integral =  res.integral
+           instance.$store.state.integral =  {
+                                            integral:res.integral ,
+                                            curr_integral:res.curr_integral
+                                          }
            totalItem()
            console.log('res',state)
           
@@ -104,27 +108,27 @@ export default {
 
     const   onLoad = ()=> {
       // 异步更新数据
-      // setTimeout 仅做示例，真实场景中一般为 ajax 请求
-      setTimeout(() => {
-        for (let i = 0; i < 10; i++) {
-          state.list.push({
-            pic:require('../static/images/login/j1.png'),
-            icon:'',
-            descTitle:'A bunch of flowers',
-            descContent:'Flower express 33 rose bouquel gift box champagne rose birthday gift proposal to girltriend ',
-            pointsNum:85,
-            car:true
-          })
-        }
+      // // setTimeout 仅做示例，真实场景中一般为 ajax 请求
+      // setTimeout(() => {
+      //   for (let i = 0; i < 10; i++) {
+      //     state.list.push({
+      //       pic:require('../static/images/login/j1.png'),
+      //       icon:'',
+      //       descTitle:'A bunch of flowers',
+      //       descContent:'Flower express 33 rose bouquel gift box champagne rose birthday gift proposal to girltriend ',
+      //       pointsNum:85,
+      //       car:true
+      //     })
+      //   }
 
-        // 加载状态结束
-        state.loading = false
+      //   // 加载状态结束
+      //   state.loading = false
 
-        // 数据全部加载完成
-        if (state.list.length >= 40) {
-          state.finished = true
-        }
-      }, 1000)
+      //   // 数据全部加载完成
+      //   if (state.list.length >= 40) {
+      //     state.finished = true
+      //   }
+      // }, 1000)
     }
 
     const handleCell = async (ind)=>{
@@ -132,6 +136,11 @@ export default {
       // state.list.splice(ind,1)
       let pid = state.list[ind].pid
       let cart_id = state.list[ind].car_id
+      let limit_num = state.list[ind].limit_num
+      if (limit_num == 0) {
+        instance.$toast('超过购买限制')
+        return
+      }
       // 判断 取消还是添加
       let res = cart_id ?  await apiGoodsDel({id:cart_id}) : await apiGoodsAdd({pid}) 
     
@@ -186,6 +195,7 @@ export default {
     height: 0;
    }
    .use-guide{
+     display: none;
      width: 7.1rem;
      /* height: 2.06rem; */
      margin: 0 auto;

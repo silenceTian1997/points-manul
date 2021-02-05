@@ -10,12 +10,17 @@
         {{ shopItem.descTitle }}
       </div>
       <div class="desc-content">{{ shopItem.descContent }}</div>
+      <div class="time-bar" v-if="type != 'show'">
+        <div class="time-title">{{$t('order.time')}}</div>
+        <div class="time">{{shopItem.time}}</div>
+      </div>
     </div>
+
     <template v-if="type == 'show'">
       <div class="shop-operate " :class="shopItem.car?'yecar':'nocar'" @click="handleOpShow">
         <div class="points-item">
           <div class="point-num ed-item">{{ shopItem.pointsNum }}</div>
-          <div class="point-text ed-item">points</div>
+          <div class="point-text ed-item">{{$t('order.points')}}</div>
         </div>
         <!-- <div class="points-more">
                 <div class="more-item">
@@ -33,7 +38,7 @@
         <div class="delcart" @click="handleOpShow('del')"></div>
         <div class="shop-item">
           <div class="point-num ed-item">{{ shopItem.pointsNum }}</div>
-          <div class="point-text ed-item">points</div>
+          <div class="point-text ed-item">{{$t('order.points')}}</div>
         </div>
         <div class="count-bar">
           <div class="sub">
@@ -49,7 +54,7 @@
       <div class="shop-operate shopcar-operate" :class="!shopItem.exchange?'':'exchanged'" @click="handleOpShow"> 
         <div class="shop-item" >
           <div class="point-num ed-item">{{ shopItem.pointsNum }}</div>
-          <div class="point-text ed-item">points</div>
+          <div class="point-text ed-item">{{$t('order.points')}}</div>
         </div>
         <div class="order-status">
             <!--  -->
@@ -63,6 +68,32 @@
         </div>
       </div>
     </template>
+
+    <!-- 兑换 -->
+    <template v-if="type == 'check'">
+      <div class="shop-operate " :class="shopItem.car?'yecar':'nocar'" @click="handleOpShow">
+        <div class="points-item">
+          <div class="point-num ed-item">{{ shopItem.num }}</div>
+          <div class="point-text ed-item">{{$t('order.pieces')}}</div>
+        </div>
+        <!-- <div class="points-more">
+                <div class="more-item">
+                  <div class="point-num">{{shopItem.pointsNum}}</div>
+                  <div class="point-text">points</div>
+                </div>
+                <div class="more-icon"></div>
+            </div> -->
+      </div>
+    </template>
+
+
+
+
+
+
+
+
+
     <!--  admin操作 -->
     <!-- <div class="mask-opreate" @click="opShow = false" v-if="opShow">
          <div class="shop-operate">
@@ -87,11 +118,11 @@ export default {
     shopItem: {
       type: Object,
       default: {
-        pic: require("../static/images/login/j1.png"),
+        pic: '',
         icon: "",
-        descTitle: "A bunch of flowers",
+        descTitle: "",
         descContent:
-          "Flower express 33 rose bouquel gift box champagne rose birthday gift proposal to girltriend ",
+          "",
         pointsNum: 0,
         car:false,
         gouNum:0
@@ -193,11 +224,16 @@ img {
   padding: 0.2rem;
   background-color: #3c2a26;
   flex: 1;
+  display: flex;
+  flex-flow: column;
+  justify-content: space-between;
   width: 0;
   border: 1px solid #392724;
+
 }
 .desc-title {
   font-size: 0.28rem;
+  height: .4rem;
   color: #dc6841;
   font-weight: bold;
   margin-bottom: 0.2rem;
@@ -335,5 +371,19 @@ img {
   right: 0;
   background-size: 100%;
   background-image: url(../static/images/user/del-icon.png);
+}
+
+.time-bar{
+  height: .5rem;
+}
+.time-title{
+    font-size: .24rem;
+    color: #eee;
+    font-weight: 400;
+}
+.time{
+    width: 100%;
+    font-size: .22rem;
+    color: #ccc;
 }
 </style>

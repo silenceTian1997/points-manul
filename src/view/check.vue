@@ -4,15 +4,17 @@
           <div class="icon">
               <img src="../static/images/user/jf.png" alt="">
           </div>
-          Please Confirm product information
+          <!-- Please Confirm product information -->
+          {{$t('details.pleaseCk')}}
       </div>
-      <pointsCell class="cell" :shopItem="sItem"></pointsCell>
+      <pointsCell class="cell" :type="'check'"  :shopItem="sItem"></pointsCell>
     <!-- 兑换 -->
 
     <div class="qritem">
       <!-- <img class="qrcode" :src="codeImg" alt=""> -->
-        <div class="btn" :class="isChecked?'checked':'' " @click="handleGoodsEdit">Confirm</div>
-      Please check the information carefully
+        <div class="btn" :class="isChecked?'checked':'' " @click="handleGoodsEdit">  {{$t('details.confirm')}}</div>
+      <!-- Please check the information carefully -->
+          {{$t('details.carefully')}}
     </div>
     </div>
 </template>
@@ -34,11 +36,11 @@ export default {
     const state = reactive({
         // codeImg : ''
         sItem:{
-        pic: require("../static/images/login/j1.png"),
+        pic: '',
         icon: "",
-        descTitle: "A bunch of flowers",
+        descTitle: "",
         descContent:
-          "Flower express 33 rose bouquel gift box champagne rose birthday gift proposal to girltriend ",
+          " ",
         pointsNum: 0,
         car:false,
         gouNum:0
@@ -57,6 +59,8 @@ export default {
             descTitle: res.goods.title,
             descContent:res.goods.remark,
             pointsNum: res.goods.integral,
+            num:res.goods.num,
+            time:res.goods.create_time,
             car:res.goods.status,
             gouNum:0
           }

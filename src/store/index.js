@@ -10,6 +10,7 @@ export default createStore({
     loginInfo : {},
     // 主题状态
     themeState : 'staff',
+    lang:'zh',
     op:'',
     integral:0
 

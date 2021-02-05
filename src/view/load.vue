@@ -4,13 +4,19 @@
           <img src="../static/images/user/title.png" alt="">
 
     </div>
+    <div class="logo-view" v-if="load">
     <div class="theme">
       <img src="../static/images/user/theme.png" alt="">
     </div>
     <div class="theme-logo">
       <img src="../static/images/user/logo.png" alt="">
     </div>
-    <div class="go" @click="handleGologin">
+    </div>
+    <div class="lang-view" v-else>
+        <div class="lang-item" :class="langInd == 0 ? 'lang-item-active' : ''" @click="handleCheckLang('zh',0)">中文</div>
+        <div class="lang-item" :class="langInd == 1 ? 'lang-item-active' : ''" @click="handleCheckLang('en',1)">EN</div>
+    </div>
+    <div class="go" @click="load? handletoLang():handleGologin()">
       <!-- <img src="../static/images/login/go.png" alt=""> -->
     </div>
     <!-- <div class="check-system" @click="handleCheckSystem">if you are user</div> -->
@@ -18,12 +24,16 @@
 </template>
 
 <script>
-import { toRefs, reactive, onMounted } from "vue";
+import { toRefs, reactive, onMounted ,Vue} from "vue";
 import { setLocal , getLocal ,getInstance} from '../utils/utils'
+
 export default {
   setup() {
     const instance = getInstance()
     const state = reactive({
+        load:true,
+        langInd:0,
+        lang:'zh'
     })
 
     onMounted(() => {
@@ -37,22 +47,64 @@ export default {
       instance.$store.state.themeState = theme
       setLocal('theme',theme)
     }
-
-    const handleGologin = ()=>{
-      console.log('ggg')
-      let logined = instance.$store.state.isLogin || getLocal('logined')
-      if(logined){
-        instance.$router.push('home')
-      }else{
-        instance.$router.push('login')
-      }
+    const handletoLang = ()=>{
+      state.load = false
     }
+    const handleCheckLang = (lang,ind)=>{
+      state.langInd = ind
+      state.lang = lang
+    }
+    // const handleGologin = ()=>{
+    //   if (state.lang == 'zh') {
+    //     document.title = '费列罗积分系统';    
+    //     instance.$store.state.lang = 'zh'
+    //     // instance.$i18n.locale = 'zh'
+    //     console.log(instance,'123')
+    //   }else{
+    //     document.title = 'FERRERO-POINTS';    
+    //     instance.$store.state.lang = 'en'
+    //     // instance.$i18n.locale = 'en'
+
+    //   }
+    //   setLocal('lang',state.lang)
+    //   let logined = instance.$store.state.isLogin || getLocal('logined')
+    //   if(logined){
+    //     instance.$router.push('home')
+    //   }else{
+    //     instance.$router.push('login')
+    //   }
+    // }
     return {
       ...toRefs(state),
       handleCheckSystem,
-      handleGologin
+      handletoLang,
+      handleCheckLang,
+      // handleGologin
     }
   },
+ 
+  methods:{
+     handleGologin(){
+       console.log(this.lang)
+      if (this.lang == 'zh') {
+        document.title = '费列罗积分系统';    
+        this.$store.state.lang = 'zh'
+        this.$i18n.locale = 'zh'
+      }else{
+        document.title = 'Credits Exchange System';    
+        this.$store.state.lang = 'en'
+        this.$i18n.locale = 'en'
+
+      }
+      setLocal('lang',this.lang)
+      let logined = this.$store.state.isLogin || getLocal('logined')
+      if(logined){
+        this.$router.push('home')
+      }else{
+        this.$router.push('login')
+      }
+    }
+  }
 }
 </script>
 
@@ -104,5 +156,25 @@ export default {
    vertical-align: top;
 
  }
-
+ .lang-view{
+   width: 3.5rem;
+   margin: 0 auto;
+   margin-bottom: 29vh;
+   /* display: flex; */
+ }
+ .lang-item{
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   font-size: .4rem;
+   color: #fb882b;
+   height: 1rem;
+   border-radius: 1rem;
+   background-color: #3c2a26;
+   border: .01rem solid #652f23;
+   margin-bottom: .4rem;
+ }
+.lang-item-active{
+  background-color: #4f342c;
+}
 </style>

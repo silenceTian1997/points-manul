@@ -20,16 +20,16 @@
                   <div class="points-icon m-center">
                     <img style="width:.65rem;" src="../static/images/user/jf-icon.png" alt="">
                   </div>
-                  <div class="points-text m-center">Remaining score</div>
-                  <div class="points-num m-center">{{userinfo.integral}}</div>
+                  <div class="points-text m-center">{{$t('mine.credits')}}</div>
+                  <div class="points-num m-center">{{userinfo.curr_integral}}</div>
               </div>
               <div class="gap-line"></div>
               <div class="points-item" @click="handleToPath('rank')">
                  <div class="points-icon m-center">
                     <img src="../static/images/user/rk-icon.png" alt="">
                  </div>
-                  <div class="points-text m-center">Ranking</div>
-                  <div class="points-num m-center">{{userinfo.Ranking}}</div>
+                  <div class="points-text m-center">{{$t('mine.ranking')}}</div>
+                  <div class="points-num m-center">{{userinfo.ranking}}</div>
               </div>
           </div>
 
@@ -37,7 +37,7 @@
                <van-cell class="navbar" is-link to="/mine/order" >
                   <template #title>
                       <img style="width:.5rem ; margin-right:.4rem" src="../static/images/user/order.png" alt="">
-                    <span class="custom-title">Your order</span>
+                    <span class="custom-title">{{$t('mine.order')}} </span>
                   </template>
               </van-cell>
                <!-- <van-cell class="navbar" is-link to="/mine/rank" >
@@ -51,7 +51,7 @@
                   <template #title>
                     <img style="width:.5rem ; margin-right:.4rem" src="../static/images/user/cart.png" alt="">
 
-                    <span class="custom-title">shoppingCar</span>
+                    <span class="custom-title">{{$t('mine.cart')}}</span>
                   </template>
               </van-cell>
                <!-- <van-cell class="navbar" is-link to="/mine/pointsView" >
@@ -65,7 +65,7 @@
                   <template #title>
                     <img style="width:.5rem ; margin-right:.4rem" src="../static/images/user/set.png" alt="">
 
-                    <span class="custom-title">More</span>
+                    <span class="custom-title">{{$t('mine.more')}}</span>
                   </template>
               </van-cell> -->
           </div>
@@ -77,21 +77,24 @@
 import { onMounted, reactive , toRefs } from 'vue'
 import  { useRouter } from  'vue-router'
 import { apiMy } from '../request/api'
+import { getInstance } from '../utils/utils'
 
 export default {
   
   setup(){
+    const instance = getInstance()
     const  Router = useRouter()
     const state = reactive({
       // mine:'mine页面'
       userinfo:{
-        en_name: "Keith",
-        group_id: 10086,
+        en_name: "",
+        group_id: 0,
         id: 1,
-        integral: 974,
-        name: "Keith",
+        integral: 0,
+        curr_integral:0,
+        name: "",
         number: 1,
-        phone: "199****9999",
+        phone: "",
         status: 1,
         type: 1,
         uid: null
@@ -113,6 +116,10 @@ export default {
     const getUserInfo = async ()=>{
       let res = await apiMy()
       state.userinfo = res.user
+      instance.$store.state.integral = {
+                                            integral:res.user.integral ,
+                                            curr_integral:res.user.curr_integral
+                                          }
       console.log(res)
     }
     onMounted(()=>{

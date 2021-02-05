@@ -14,7 +14,7 @@
             <img src="../static/images/user/pro-icon.png" alt="">
           </div>
           <!-- 46.3% -->
-          {{pro}}
+          {{$i18n.locale== 'zh'? '超过 ' : 'more '}}{{pro}}
         </div>
         <div class="my-line"></div>
 
@@ -37,20 +37,20 @@
 
     <div class="rank-main">
             <div class="title-bar">
-        <div class="ranking">Ranking</div>
-        <div class="name">Name</div>
-        <div class="id">ID</div>
-        <div class="points">Points</div>
+        <div class="ranking">{{$t('ranking.ranking')}}</div>
+        <div class="name">{{$t('ranking.name')}}</div>
+        <div class="id"></div>
+        <div class="points">{{$t('ranking.credits')}}</div>
       </div>
       <div class="main">
         <template  v-for="(item,index) in rankList" :key="index">
           <div class="content-bar" :class="'pm'+(index+1)" v-if="(index +1) < 50">
           <div class="ranking-item" >{{ (index +1) < 10 ? '0'+(index +1) : (index+1) }}</div>
           <div class="name-item">{{item.name}}</div>
-          <div class="id-item">{{item.number}}</div>
+          <div class="id-item"></div>
           <div class="points-item">
             <div class="i-num"> {{item.integral}}</div>
-              <div class="i-en">Points</div>
+              <div class="i-en">{{$t('order.points')}}</div>
             </div>
         </div>
       </template>
@@ -183,13 +183,14 @@ img{
   .id{
     width: 1rem;
     font-size: .26rem;
-
+    opacity: 0;
   }
   .id-item{
     width: 1rem;
     font-size: .26rem;
     font-weight: 600;
     color: #c2bbab;
+    opacity: 0;
   }
   .points{
     width: 1rem;

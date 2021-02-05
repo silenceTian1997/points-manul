@@ -5,8 +5,15 @@
     </div>
     <div class="bar-title"> {{ barTitle }}</div>
     <div class="bar-points" v-if="barTitle != 'Points view'">
-      <div class="points-num">{{ barPoints }}</div> 
-      <div class="points-text">Points</div>
+      <!-- <div class="points-num">{{ barPoints }}</div>  -->
+      <!-- <div class="points-text">Points</div> -->
+      <div class="points-item">
+          
+          <div class="points-totals"><div class="total">{{$t('home.total')}}   </div> <div class="total-num">{{barPoints.integral}}</div></div>
+          <div class="points-available"> <div class="score">{{$t('home.my')}}  </div>
+            <div class="score-num">{{barPoints.curr_integral}}</div>
+             </div>
+      </div>
       </div>
   </div>
 </template>
@@ -24,8 +31,11 @@ export default {
       default:'Points '
     },
     barPoints:{
-      type:Number || String,
-      default:0
+      type:Object,
+      default:{
+        integral:0,
+        curr_integral:0
+      }
     }
   }  
 }
@@ -69,4 +79,24 @@ export default {
       font-size: .38rem;
       margin-right: .2rem;
     }
+    .poinst-item{
+      text-align: right;
+    }
+    .points-totals,.points-available{
+      display: flex;
+      justify-content: space-between;
+    }
+    .total{
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+    }
+    .total-num ,.score-num{
+      font-size: .4rem;
+      line-height: 1;
+    }
+    .score {
+    width: fit-content;
+    /* font-size: .18rem; */
+  }
 </style>

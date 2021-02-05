@@ -4,14 +4,16 @@
           <div class="icon">
               <img @click="()=>{return}" src="../static/images/user/jf.png" alt="">
           </div>
-          Please show the exchange code 
+          <!-- Please show the exchange code  -->
+          {{$t('details.please')}}
       </div>
-      <pointsCell class="cell" :shopItem="sItem"></pointsCell>
+      <pointsCell class="cell" :type="'check'" :shopItem="sItem"></pointsCell>
     <!-- 兑换 -->
 
     <div class="qritem">
       <img class="qrcode" :src="codeImg" alt="">
-      Please show the QR code for verification and collection
+      <!-- Please show the QR code for verification and collection -->
+          {{$t('details.verification')}}
     </div>
     </div>
 </template>
@@ -33,11 +35,11 @@ export default {
     const state = reactive({
         codeImg : '',
          sItem:{
-        pic: require("../static/images/login/j1.png"),
+        pic: '',
         icon: "",
-        descTitle: "A bunch of flowers",
+        descTitle: "",
         descContent:
-          "Flower express 33 rose bouquel gift box champagne rose birthday gift proposal to girltriend ",
+          " ",
         pointsNum: 0,
         car:false,
         gouNum:0
@@ -55,6 +57,8 @@ export default {
             descContent:res.goods.remark,
             pointsNum: res.goods.integral,
             car:res.goods.status,
+            num:res.goods.num,
+            time:res.goods.create_time,
             gouNum:0
           }
         state.sItem =  shop

@@ -8,7 +8,7 @@
         <pointsCell v-for="(item,index) in list" :key="index" :shopItem="item" :shopIndex="index" @handleCell='handleCell' :type="cellType" />
       </van-list> 
       <div class="no-one" v-else>
-          空空如也
+          {{$t('home.none')}}
       </div>
     </div>
 </template>

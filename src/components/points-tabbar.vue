@@ -3,12 +3,14 @@
       <router-link tag="li" to="/home" class="nav-list-item">
       <div class="home-icon"></div>
       <div class="home-icon-a"></div>
-      <div class="text">Home page</div>
+      <div class="text" v-if="$i18n.locale == 'zh'  ">首 页</div>
+      <div class="text" v-else>Home page</div>
       </router-link>
       <router-link tag="li" to="/mine" class="nav-list-item">
         <div class="mine-icon"></div>
         <div class="mine-icon-a"></div>
-        <div class="text">Personal center</div>
+      <div class="text" v-if="$i18n.locale == 'zh'  ">我 的</div>
+        <div class="text" v-else>Personal center</div>
       </router-link>
       <!-- <router-link tag="li" to="/ref">reftest</router-link> -->
     </ul>
@@ -18,14 +20,15 @@
 import { onMounted, toRefs, reactive } from "vue";
 export default {
   name:'points-tabbar',
-  setup() {
-    const state = reactive({
+
+  // setup() {
+  //   const state = reactive({
  
-    })
-    return{
-      ...toRefs(state),
-    }
-  },
+  //   })
+  //   return{
+  //     ...toRefs(state),
+  //   }
+  // },
 };
 </script>
 

@@ -5,8 +5,8 @@
     <pointsList style="padding-bottom:14%" :list="list"   @handleCellItem='handleCellItem' :cellType="'shopCar'" />
     <!-- :loading='loading' :finished='finished' @ajaxLoad='' -->
     <div class="cartotal">
-        <div class="select">settlement</div>
-        <div class="num-bar"> <span class="num">{{ totalPoints }}</span> Points</div>
+        <div class="select">{{$t('order.settlement')}}</div>
+        <div class="num-bar"> <span class="num">{{ totalPoints }}</span> {{$t('order.points')}}</div>
         <div class="gou" @click="handleInsertOrder"></div>
     </div>
 </template>
@@ -71,7 +71,12 @@ export default {
       switch (countType) {
         case 'add':
             console.log("+")
-            state.list[isIndex].gouNum  = state.list[isIndex].gouNum + 1
+            if(state.list[isIndex].limitNum >= state.list[isIndex].gouNum + 1){
+              state.list[isIndex].gouNum  = state.list[isIndex].gouNum + 1
+            }else{
+              instance.$toast('超过购买限制')
+              // state.list[isIndex].gouNum = 0
+            }
             countTotalPoints()
           break;
         case 'minus':
@@ -117,7 +122,8 @@ export default {
             descTitle:item.title,
             descContent:'',
             pointsNum:item.integral,
-            gouNum:1
+            gouNum:1,
+            limitNum:item.limit_num
         }))
         console.log(cartList)
         state.list = cartList
@@ -163,10 +169,13 @@ export default {
         })
         state.list = newList
         countTotalPoints()
-        instance.$store.state.integral = res.integral
+        instance.$store.state.integral = {
+                                            integral:res.integral ,
+                                            curr_integral:res.curr_integral
+                                          }
         // onMounted()
       }else{
-        instance.$toast(res['0'])
+        instance.$toast(res.msg)
       }
     }
     onMounted(()=>{

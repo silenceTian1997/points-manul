@@ -2,8 +2,8 @@
   <div class="remaining">
       <div class="main">
         <div class="title-bar">
-          <div class="title-text">remaining score</div>
-          <div class="title-points"><span class="total-num">{{totalNum}}</span> points</div>
+          <div class="title-text">{{$t('pointsView.total')}}</div>
+          <div class="title-points"><span class="total-num">{{totalNum}}</span> {{$t('order.points')}}</div>
         </div>
         <div class="data-pic">
           <div style="width:6rem;height:6rem" ref="chart"></div>

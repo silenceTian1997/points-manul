@@ -3,7 +3,7 @@
     <pointsTopbar :barTitle="topTitle" :barPoints="jfNum" :icon="icon" v-if="topTitle" />
     <router-view class="content-view"></router-view>
     <pointsTabbar v-if="tabbarHidd"/>
- 
+
   </div>
  
 </template>
@@ -35,7 +35,10 @@ export default {
       topTitle:'points',
       icon :'',
       themeStyle:'staff',
-      jfNum:0
+      jfNum:{
+        integral:0,
+        curr_integral:0
+      }
     });
 
      const getUrl = (name)=>{
@@ -62,7 +65,13 @@ export default {
           window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=${appid}&redirect_uri=${redirectUrl}&response_type=code&scope=snsapi_base&state=123#wechat_redirect`;
         }
         if(response.data.code == 203){ 
-              _this.$store.state.integral =  response.data.integral
+          
+              _this.$store.state.integral = {
+                                            integral:response.data.integral ,
+                                            curr_integral:response.data.curr_integral
+                                          }
+              
+              
         }
         
     }).catch(err=>{
@@ -89,7 +98,10 @@ export default {
         console.log(response)
         _this.rescode = response.data.code
         if (response.data.code == 203) {
-              _this.$store.state.integral =  response.data.integral
+              _this.$store.state.integral =  {
+                                            integral:response.data.integral ,
+                                            curr_integral:response.data.curr_integral
+                                          }
           
         }
         if(response.data.op == null) {
@@ -103,7 +115,10 @@ export default {
            _this.$store.state.isLogin  = true
               setLocal('logined',true)
               console.log('set')
-            _this.$store.state.integral =  response.data.integral
+            _this.$store.state.integral =  {
+                                            integral:response.data.integral ,
+                                            curr_integral:response.data.curr_integral
+                                          }
               // _this.$router.push("home");
           }else{
               _this.$store.state.isLogin  = false
@@ -128,10 +143,14 @@ export default {
        setLocal('theme','staff')
        orgtheme = 'staff'
       }
-
-
-
        state.themeStyle = orgtheme
+
+      let lang =  getLocal('lang') 
+      if(!lang) {
+       setLocal('lang','zh')
+       state.lang = 'zh'
+      }
+
     
       remJS(window, document);
     });
@@ -211,15 +230,26 @@ export default {
             const topIconObj = {
       'Personal center':require('./static/images/user/gr.png'),
       'Product Page':require('./static/images/user/jf.png'),
-      'Your Order':require('./static/images/user/dd.png'),
+      'My Order':require('./static/images/user/dd.png'),
       'Ranking':require('./static/images/user/pm.png'),
       'Shopping Cart':require('./static/images/user/gw.png'),
-      'Points view':require('./static/images/user/ck.png'),
+      'My credits':require('./static/images/user/ck.png'),
+      'Order Details':require('./static/images/user/ex.png'),
     }
 
        this.tabbarHidd = !newpath.meta.tabbarhidd
-       this.topTitle = newpath.meta.barTitle
-       this.icon = topIconObj[this.topTitle]
+      //  getLocal()
+       let lang = getLocal('lang')
+       let topTitleEn
+       if (lang == 'zh') {
+          this.topTitle = newpath.meta.barTitleZh
+          topTitleEn = newpath.meta.barTitle
+
+       }else{
+          this.topTitle = newpath.meta.barTitle
+          topTitleEn = newpath.meta.barTitle
+       }
+       this.icon = topIconObj[topTitleEn]
        console.log(this.icon)
     },
     '$store.state.integral'(newval, olval) {

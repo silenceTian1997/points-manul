@@ -1,7 +1,7 @@
 <template>
      <div class="parline">
           <!-- <span> Product </span> -->
-          Product
+          {{$t('order.product')}}
     </div>
     <pointsList :list="list" :loading='loading' :finished='finished' @ajaxLoad='ajaxLoad' @handleCellItem='handleCellItem' :cellType="'order'"/>
 </template>
@@ -69,7 +69,7 @@ export default {
               descTitle:item.title,
               exchange:item.status,
               pointsNum: item.num * item.integral,
-              craeteTime:item.create_time
+              time:item.create_time,
             }
 
         })

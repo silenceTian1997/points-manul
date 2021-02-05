@@ -22,6 +22,16 @@ const router = createRouter({
       component: () => import('../view/load.vue')
     },
     {
+      path: '/statement',
+      name:'statement',
+      meta:{
+        index:1,
+        tabbarhidd:true,
+        white:true
+      },
+      component: () => import('../view/statement.vue')
+    },
+    {
       path: '/login',
       name:'login',
       meta:{
@@ -36,7 +46,8 @@ const router = createRouter({
       name:'mine',
       meta:{
         index:1,
-        barTitle:'Personal center'
+        barTitle:'Personal center',
+        barTitleZh:'个人中心',
       },
       component: () => import('../view/mine.vue')
     },
@@ -45,7 +56,8 @@ const router = createRouter({
       name:'home',
       meta:{
         index:1,
-        barTitle:'Product Page'
+        barTitle:'Product Page',
+        barTitleZh:'礼品兑换页',
       },
       component: () => import('../view/home.vue')
     },
@@ -54,7 +66,9 @@ const router = createRouter({
       name:'order',
       meta:{
         index:1,
-        barTitle:'Your Order'
+        barTitle:'My Order',
+        barTitleZh:'我的订单',
+
       },
       component: () => import('../view/order.vue')
     },
@@ -63,7 +77,8 @@ const router = createRouter({
       name:'rank',
       meta:{
         index:1,
-        barTitle:'Ranking'
+        barTitle:'Ranking',
+        barTitleZh:'排名',
       },
       component: () => import('../view/rank.vue')
     },
@@ -72,7 +87,8 @@ const router = createRouter({
       name:'shoppingCar',
       meta:{
         index:1,
-        barTitle:'Shopping Cart'
+        barTitle:'Shopping Cart',
+        barTitleZh:'购物车',
       },
       component: () => import('../view/shopping-car.vue')
     },
@@ -81,7 +97,8 @@ const router = createRouter({
       name:'pointsView',
       meta:{
         index:1,
-        barTitle:'Points view'
+        barTitle:'My credits',
+        barTitleZh:'我的积分',
       },
       component: () => import('../view/points-view.vue')
     },   
@@ -90,7 +107,8 @@ const router = createRouter({
       name:'exchange',
       meta:{
         index:1,
-        barTitle:'Exchange'
+        barTitle:'Order Details',
+        barTitleZh:'订单详情',
       },
       component: () => import('../view/exchange.vue')
     },
